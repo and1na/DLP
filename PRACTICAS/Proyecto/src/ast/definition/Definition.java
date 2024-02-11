@@ -1,4 +1,10 @@
 package ast.definition;
 
-public interface Definition {
+import ast.node.ASTNode;
+import ast.type.Type;
+
+public interface Definition extends ASTNode {
+
+    public String getName();
+    public Type getType();
 }
