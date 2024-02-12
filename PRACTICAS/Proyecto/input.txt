@@ -3,8 +3,8 @@
 
 """ Integer
    constants """
-    0 123	
-    0 12   
+    0 123
+    0 12
 
 """ Real
    constants """
