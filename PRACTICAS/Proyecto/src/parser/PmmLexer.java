@@ -17,7 +17,7 @@ public class PmmLexer extends Lexer {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		INT_CONSTANT=1, REAL_CONSTANT=2, CHAR_CONSTANT=3, IDENTIFIER=4, ONE_LINE_COMMENT=5, 
+		INT_CONSTANT=1, REAL_CONSTANT=2, CHAR_CONSTANT=3, ID=4, ONE_LINE_COMMENT=5, 
 		MULTI_LINE_COMMENT=6, SPACE=7, TRASH=8;
 	public static String[] channelNames = {
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
@@ -29,7 +29,7 @@ public class PmmLexer extends Lexer {
 
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"INT_CONSTANT", "REAL_CONSTANT", "CHAR_CONSTANT", "IDENTIFIER", "ONE_LINE_COMMENT", 
+			"INT_CONSTANT", "REAL_CONSTANT", "CHAR_CONSTANT", "ID", "ONE_LINE_COMMENT", 
 			"MULTI_LINE_COMMENT", "SPACE", "TRASH", "EXPLICIT_CHAR", "NUMERIC_CHAR", 
 			"SPECIAL_CHAR", "LETRA", "DOTTED_REAL", "EXPONENT_REAL"
 		};
@@ -44,8 +44,8 @@ public class PmmLexer extends Lexer {
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "INT_CONSTANT", "REAL_CONSTANT", "CHAR_CONSTANT", "IDENTIFIER", 
-			"ONE_LINE_COMMENT", "MULTI_LINE_COMMENT", "SPACE", "TRASH"
+			null, "INT_CONSTANT", "REAL_CONSTANT", "CHAR_CONSTANT", "ID", "ONE_LINE_COMMENT", 
+			"MULTI_LINE_COMMENT", "SPACE", "TRASH"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
