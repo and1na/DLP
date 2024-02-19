@@ -1,7 +1,11 @@
 grammar Pmm;	
 
-program: 
+program: expression
        ;
+
+expression: INT_CONSTANT
+            | expression '+' expression;
+
 
 
 /*LEXER PATTERNS*/
