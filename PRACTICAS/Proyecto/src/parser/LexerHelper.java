@@ -14,19 +14,20 @@ public class LexerHelper {
 
 	public static char lexemeToChar(String text) {
 		try {
-			if (text.length() == 3) {
-				return text.charAt(1);
-			}else if(text.equals("'\\n'")){
-				return '\n';
-			}else if(text.equals("'\\t'")){
-				return '\t';
-			}else if(text.charAt(1) == '\\'){ //si es con hexstring
-				int decimalValue = Integer.parseInt(text.substring(2,text.length()-1));
-				return (char) decimalValue;
+			switch (text) {
+				case "'\\n'":
+					return '\n';
+				case "'\\t'":
+					return '\t';
+				default:
+					if (text.length() == 3) {
+						return text.charAt(1);
+					}
+					if (text.matches("'\\\\[1-9][0-9]*'")) {
+						return (char) Integer.parseInt(text.substring(2,text.length()-1));
+					}
 			}
-
-
-		}catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			System.out.println(e);
 		}
 		return 1;
