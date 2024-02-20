@@ -1,16 +1,16 @@
 grammar Pmm;	
 
-program: statement EOF
+program: definition* EOF
        ;
 
 expression:  INT_CONSTANT
             | REAL_CONSTANT
             | CHAR_CONSTANT
             | ID
-            | functioninvocation
+            | functioninvocation/**??????????????????????????***/
             | '(' expression ')'
-            | expression'[' expression ']'
-            | expression '.' ID
+            | expression'[' expression ']' /**ARRAY ACCESS**/
+            | expression '.' ID /*Struct access*/
             | '(' type ')' expression
             | '-' expression
             | '!' expression
@@ -18,15 +18,17 @@ expression:  INT_CONSTANT
             | expression ('+'|'-') expression
             | expression ('>'|'>='|'<'|'<='|'!='|'==') expression
             | expression ('&&'|'||') expression
+
             ;
 
 statement: 'return' expression ';'
           | 'print' expressionList ';'
           | 'input' expressionList ';'
-          | ID '=' expression ';'
+          | expression '=' expression ';'
           | 'while' expression ':' '{' statementList '}'
           | 'if' expression ':' statementList ('else' ':' statementList)?
-            ;
+          | functioninvocation ';'/**??????????????????????????***/
+          ;
 
 definition: varDefinition
             | funcDefinition;
@@ -38,15 +40,28 @@ expressionList: (expression (',' expression)* )?;
 
 functioninvocation: /**function variable*/ ID '(' expressionList ')' ;
 
-varDefinition: ID ':' type ';';
 
-funcDefinition: 'def';
 
-type:   'int'
-      | 'double'
-      | 'char'
+funcDefinition: 'def' ID'(' parametersList ')' ':' basicType '{' varDefinition* statementList '}' ;
+
+parametersList: (parameter (',' parameter)* )?;
+
+type:   basicType
       | '[' INT_CONSTANT ']' type
-      | 'struct' '{'   varDefinition*   '}';
+      | 'struct' '{'   varDefinition* /**structField*/ /**??????STRUCTFIELD O VARDEFINITION???????/***structField: ID* ':' type ';';***/ '}'
+      ;
+
+
+
+basicType:  'int'
+            | 'double'
+            | 'char'
+            | /*void**/
+            ;
+
+varDefinition: expression (',' expression)*  ':' type  ';';
+/**PARAMETER IGUAL QUE varDef pero sin ;???????**/
+parameter: ID* ':' type ;
 
 
 /*LEXER PATTERNS*/
