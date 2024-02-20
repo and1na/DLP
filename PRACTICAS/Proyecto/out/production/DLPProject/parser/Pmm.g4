@@ -1,12 +1,45 @@
 grammar Pmm;	
 
-program: expression
+program: statement EOF
        ;
 
-expression: INT_CONSTANT
-            | expression '+' expression;
+expression:  INT_CONSTANT
+            | REAL_CONSTANT
+            | CHAR_CONSTANT
+            | ID
+            | functioninvocation
+            | '(' expression ')'
+            | expression'[' expression ']'
+            | expression '.' ID
+            | '(' type ')' expression
+            | '-' expression
+            | '!' expression
+            | expression ('*'|'/'|'%') expression
+            | expression ('+'|'-') expression
+            | expression ('>'|'>='|'<'|'<='|'!='|'==') expression
+            | expression ('&&'|'||') expression
+            ;
+
+statement: 'return' expression ';'
+          | 'print' expressionList ';'
+          | 'input' expressionList ';'
+          | ID '=' expression ';'
+          | 'while' expression ':' '{' statementList '}'
+          | 'if' expression ':' statementList ('else' ':' statementList)?
+            ;
+
+definition:  ;
 
 
+statementList: statement*;
+
+expressionList: (expression (',' expression)* )?;
+
+functioninvocation: /**function variable*/ ID '(' expressionList ')' ;
+
+type:   'int'
+      | 'double'
+      | 'char';
 
 /*LEXER PATTERNS*/
 

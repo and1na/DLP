@@ -1,6 +1,6 @@
 grammar Pmm;	
 
-program: expression EOF
+program: statement EOF
        ;
 
 expression:  INT_CONSTANT
@@ -23,12 +23,13 @@ expression:  INT_CONSTANT
 statement: 'return' expression ';'
           | 'print' expressionList ';'
           | 'input' expressionList ';'
-          | expression '=' expression ';'
+          | ID '=' expression ';'
           | 'while' expression ':' '{' statementList '}'
           | 'if' expression ':' statementList ('else' ':' statementList)?
             ;
 
-definition:  ;
+definition: varDefinition
+            | funcDefinition;
 
 
 statementList: statement*;
@@ -37,9 +38,16 @@ expressionList: (expression (',' expression)* )?;
 
 functioninvocation: /**function variable*/ ID '(' expressionList ')' ;
 
+varDefinition: ID ':' type ';';
+
+funcDefinition: 'def';
+
 type:   'int'
       | 'double'
-      | 'char';
+      | 'char'
+      | '[' INT_CONSTANT ']' type
+      | 'struct' '{'   varDefinition*   '}';
+
 
 /*LEXER PATTERNS*/
 
