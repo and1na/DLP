@@ -1,6 +1,6 @@
 grammar Pmm;	
 
-program: definition* EOF
+program: definition* main EOF
        ;
 
 expression:  INT_CONSTANT
@@ -18,6 +18,11 @@ expression:  INT_CONSTANT
             | expression ('+'|'-') expression
             | expression ('>'|'>='|'<'|'<='|'!='|'==') expression
             | expression ('&&'|'||') expression
+
+            ;
+
+
+main: 'def' 'main' '(' ')'':''{' varDefinition*  statementList '}'
 
             ;
 
