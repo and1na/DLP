@@ -1,16 +1,20 @@
-grammar Pmm;	
+grammar Pmm;
+@header{
+    import ast.expression.*;
+    import ast.node.*;
+}
 
-program: definition* EOF
+program returns [ASTNode ast]: definition* main EOF
        ;
 
-expression:  INT_CONSTANT
-            | REAL_CONSTANT
-            | CHAR_CONSTANT
-            | ID
-            | functioninvocation/**??????????????????????????***/
+expression returns [Expression ast]:  INT_CONSTANT {$ast = new IntLiteral($INT_CONSTANT.getLine(), $INT_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToInt($INT_CONSTANT.text));}
+            | REAL_CONSTANT {$ast = new FloatLiteral($REAL_CONSTANT.getLine(), $REAL_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToReal($REAL_CONSTANT.text));}
+            | CHAR_CONSTANT {$ast = new Char($CHAR_CONSTANT.getLine(), $CHAR_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToChar($CHAR_CONSTANT.text));}
+            | ID {$ast = new Variable($ID.getLine(),$ID.getCharPositionInLine()+1,$ID.text);}
+            | functioninvocation {$ast = $functioninvocation.ast;}
             | '(' expression ')'
-            | expression'[' expression ']' /**ARRAY ACCESS**/
-            | expression '.' ID /*Struct access*/
+            | e1=expression pos='[' e2=expression ']' {$ast = new ArrayAccess($pos.getLine(),$pos.getCharPositionInLine(),$e1.ast,$e2.ast);}/**ARRAY ACCESS**/
+            | e=expression '.' ID /*Struct access*/ {$ast = new StructAccess($ID.getLine(),$ID.getCharPositionInLine(),$ID.text,$e.ast);}
             | '(' type ')' expression
             | '-' expression
             | '!' expression
@@ -18,6 +22,11 @@ expression:  INT_CONSTANT
             | expression ('+'|'-') expression
             | expression ('>'|'>='|'<'|'<='|'!='|'==') expression
             | expression ('&&'|'||') expression
+
+            ;
+
+
+main: 'def' 'main' '(' ')'':''{' varDefinition*  statementList '}'
 
             ;
 
@@ -36,9 +45,11 @@ definition: varDefinition
 
 statementList: statement*;
 
-expressionList: (expression (',' expression)* )?;
+expressionList returns [List<Expression> ast = new ArrayList<Expression>()]: (e1=expression {$ast.add($e1.ast);} (',' e2=expression {$ast.add($e2.ast);} /**.ast da instancia de clases mias*/ )* )?;
 
-functioninvocation: /**function variable*/ ID '(' expressionList ')' ;
+functioninvocation returns [FunctionInvocation ast]:
+            /**function variable*/ ID '(' exps=expressionList ')'
+            {$ast = new FunctionInvocation($ID.getLine(),$ID.getCharPositionInLine() + 1,$exps.ast,new Variable($ID.getLine(),$ID.getCharPositionInLine(),$ID.text));};
 
 
 
