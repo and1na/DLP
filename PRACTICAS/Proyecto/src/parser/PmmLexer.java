@@ -3,6 +3,9 @@ package parser;
 
     import ast.expression.*;
     import ast.node.*;
+    import ast.type.*;
+    import ast.type.struct.*;
+
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;

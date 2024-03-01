@@ -2,27 +2,43 @@ grammar Pmm;
 @header{
     import ast.expression.*;
     import ast.node.*;
+    import ast.type.*;
+    import ast.type.struct.*;
+
 }
 
 program returns [ASTNode ast]: definition* main EOF
        ;
 
 expression returns [Expression ast]:  INT_CONSTANT {$ast = new IntLiteral($INT_CONSTANT.getLine(), $INT_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToInt($INT_CONSTANT.text));}
-            | REAL_CONSTANT {$ast = new FloatLiteral($REAL_CONSTANT.getLine(), $REAL_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToReal($REAL_CONSTANT.text));}
-            | CHAR_CONSTANT {$ast = new Char($CHAR_CONSTANT.getLine(), $CHAR_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToChar($CHAR_CONSTANT.text));}
-            | ID {$ast = new Variable($ID.getLine(),$ID.getCharPositionInLine()+1,$ID.text);}
-            | functioninvocation {$ast = $functioninvocation.ast;}
-            | '(' expression ')'
-            | e1=expression pos='[' e2=expression ']' {$ast = new ArrayAccess($pos.getLine(),$pos.getCharPositionInLine(),$e1.ast,$e2.ast);}/**ARRAY ACCESS**/
-            | e=expression '.' ID /*Struct access*/ {$ast = new StructAccess($ID.getLine(),$ID.getCharPositionInLine(),$ID.text,$e.ast);}
-            | '(' type ')' expression
-            | '-' expression
-            | '!' expression
-            | expression ('*'|'/'|'%') expression
-            | expression ('+'|'-') expression
-            | expression ('>'|'>='|'<'|'<='|'!='|'==') expression
-            | expression ('&&'|'||') expression
-
+            | REAL_CONSTANT
+              {$ast = new FloatLiteral($REAL_CONSTANT.getLine(), $REAL_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToReal($REAL_CONSTANT.text));}
+            | CHAR_CONSTANT
+              {$ast = new CharLiteral($CHAR_CONSTANT.getLine(), $CHAR_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToChar($CHAR_CONSTANT.text));}
+            | ID
+              {$ast = new Variable($ID.getLine(),$ID.getCharPositionInLine()+1,$ID.text);}
+            | functioninvocation
+              {$ast = $functioninvocation.ast;}
+            | '(' e=expression ')'
+                {$ast = $e.ast;}
+            | e1=expression pos='[' e2=expression ']'
+              {$ast = new ArrayAccess($pos.getLine(),$pos.getCharPositionInLine()+1,$e1.ast,$e2.ast);}/**ARRAY ACCESS**/
+            | e=expression '.' ID /*Struct access*/
+              {$ast = new StructAccess($ID.getLine(),$ID.getCharPositionInLine()+1,$ID.text,$e.ast);}
+            | pos='(' t=type ')' exp=expression
+              {$ast=new Cast($pos.getLine(),$pos.getCharPositionInLine()+1,$type.ast, $exp.ast);}
+            | minus='-' exp=expression
+              {$ast = new UnaryMinus($minus.getLine(),$minus.getCharPositionInLine()+1, $exp.ast);}
+            | negation='!' exp=expression
+              {$ast = new Negation($negation.getLine(),$negation.getCharPositionInLine()+1, $exp.ast);}
+            | exp1=expression operator=('*'|'/'|'%') exp2=expression
+              {$ast = new Arithmetic($operator.getLine(),$operator.getCharPositionInLine()+1,$exp1.ast,$exp2.ast,$operator.text);}
+            | exp1=expression operator=('+'|'-') exp2=expression
+              {$ast = new Arithmetic($operator.getLine(),$operator.getCharPositionInLine()+1,$exp1.ast,$exp2.ast,$operator.text);}
+            | exp1=expression operator=('>'|'>='|'<'|'<='|'!='|'==') exp2=expression
+              {$ast = new ArithmeticComparison($operator.getLine(),$operator.getCharPositionInLine()+1,$exp1.ast,$exp2.ast,$operator.text);}
+            | exp1=expression operator=('&&'|'||') exp2=expression
+              {$ast = new Logical($operator.getLine(),$operator.getCharPositionInLine()+1,$exp1.ast,$exp2.ast,$operator.text);}
             ;
 
 
@@ -36,7 +52,7 @@ statement: 'return' expression ';'
           | expression '=' expression ';'
           | 'while' expression ':' '{' statementList '}'
           | 'if' expression ':' statementList ('else' ':' statementList)?
-          | functioninvocation ';'/**??????????????????????????***/
+          | functioninvocation ';'
           ;
 
 definition: varDefinition
@@ -57,20 +73,42 @@ funcDefinition: 'def' ID'(' parametersList ')' ':' basicType '{' varDefinition* 
 
 parametersList: (parameter (',' parameter)* )?;
 
-type:   basicType
-      | '[' INT_CONSTANT ']' type
-      | 'struct' '{'   varDefinition* /**structField*/ /**??????STRUCTFIELD O VARDEFINITION???????/***structField: ID* ':' type ';';***/ '}'
+type returns [Type ast]:
+        basicType
+        {$ast=$basicType.ast;}
+      | bracket='[' INT_CONSTANT ']' type
+        {$ast=new Array($bracket.getLine(),$bracket.getCharPositionInLine()+1,LexerHelper.lexemeToInt($INT_CONSTANT.text),$type.ast);}
+      | st='struct' '{'   structFields/**structField*/ /**??????STRUCTFIELD O VARDEFINITION???????/***structField: ID* ':' type ';';***/ '}'
+        {$ast = new Struct($st.getLine(),$st.getCharPositionInLine() + 1,$structFields.ast);}
       ;
 
+structFields returns [List<StructField> ast = new ArrayList<StructField>()]: idList=ids dots=':' tp=type  ';'
+                     {
+                        for (Variable v : $idList.ast) {
+                            $ast.add(new StructField(v.getLine(), v.getColumn(), $tp.ast, v.getName()));
+                        }
+                     }
+                    ;
 
 
-basicType:  'int'
-            | 'double'
-            | 'char'
+ids returns [List<Variable> ast = new ArrayList<Variable>()]:
+            id1=ID { $ast.add(new Variable($id1.getLine(), $id1.getCharPositionInLine() + 1, $id1.text)); }
+                (','id2=ID { $ast.add(new Variable($id2.getLine(), $id2.getCharPositionInLine() + 1, $id2.text)); })*
+            ;
+
+basicType returns [Type ast]:
+              int='int'
+              {$ast=new IntType($int.getLine(),$int.getCharPositionInLine());}
+            | double='double'
+              {$ast=new DoubleType($double.getLine(),$double.getCharPositionInLine());}
+            | char='char'
+              {$ast=new CharType($char.getLine(),$char.getCharPositionInLine());}
             | /*void**/
             ;
 
-varDefinition: expression (',' expression)*  ':' type  ';';
+varDefinition: ID (',' ID)*  ':' type  ';';
+
+
 /**PARAMETER IGUAL QUE varDef pero sin ;???????**/
 parameter: ID* ':' type ;
 

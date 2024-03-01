@@ -8,8 +8,8 @@ public class ArithmeticComparison extends AbstractASTNode implements Expression 
     private Expression leftExpression;
     private Expression rightExpression;
 
-    public ArithmeticComparison(int line, int column, String operator ,
-                                Expression leftExpression, Expression rightExpression) {
+    public ArithmeticComparison(int line, int column,
+                                Expression leftExpression, Expression rightExpression, String operator) {
         super(line, column);
         this.leftExpression = leftExpression;
         this.rightExpression = rightExpression;

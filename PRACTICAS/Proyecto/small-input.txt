@@ -1,1 +1,1 @@
-manoloStruct.nombre
+1 && 23

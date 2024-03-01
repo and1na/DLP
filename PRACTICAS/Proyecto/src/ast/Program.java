@@ -6,7 +6,7 @@ import ast.node.AbstractASTNode;
 
 import java.util.List;
 
-public class Program extends AbstractASTNode implements ASTNode /* IMPLEMENTA ABSTRACTASTNODE????*/ {
+public class Program extends AbstractASTNode implements ASTNode {
 
     List<Definition> definitions;
 
