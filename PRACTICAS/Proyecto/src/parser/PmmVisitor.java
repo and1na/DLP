@@ -5,6 +5,9 @@ package parser;
     import ast.node.*;
     import ast.type.*;
     import ast.type.struct.*;
+    import ast.definition.*;
+    import ast.statement.*;
+    import ast.*;
 
 
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
@@ -24,17 +27,17 @@ public interface PmmVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProgram(PmmParser.ProgramContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link PmmParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpression(PmmParser.ExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link PmmParser#main}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitMain(PmmParser.MainContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PmmParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpression(PmmParser.ExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PmmParser#statement}.
 	 * @param ctx the parse tree
@@ -42,17 +45,11 @@ public interface PmmVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatement(PmmParser.StatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link PmmParser#definition}.
+	 * Visit a parse tree produced by {@link PmmParser#body}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDefinition(PmmParser.DefinitionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link PmmParser#statementList}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitStatementList(PmmParser.StatementListContext ctx);
+	T visitBody(PmmParser.BodyContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PmmParser#expressionList}.
 	 * @param ctx the parse tree

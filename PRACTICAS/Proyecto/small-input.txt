@@ -1,1 +1,46 @@
-1 && 23
+# Variable and function definitions
+i, j, n: int;
+c: char;
+
+# Empty function
+def p(n: int):  { }
+
+# Empty function
+def n(n: int):  {
+    	  	pair: struct {
+                v1: int;
+    	  	    v2: char;
+                v3: double;
+                v4: double;
+                v5: int;
+                v6: char;
+          	};
+
+ }
+
+def f(n: int,r: double): int {
+  	real: double;
+  	c1, c2: char;
+	c1 = (char)n;
+  	real = (double)c1 + (double)n + r;
+  	p(); # Invocation as a statement
+  	return (int)c1;
+}
+
+# Variable definition
+d: double;
+
+def main(): {
+
+# Record
+  	pair: struct {
+                v7: int;
+    	  	    v8: char;
+                v9: double;
+                v10: double;
+                v11: int;
+                v12: char;
+  	};
+
+
+}

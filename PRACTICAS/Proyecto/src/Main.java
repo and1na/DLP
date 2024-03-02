@@ -23,7 +23,7 @@ public class Main {
 		CommonTokenStream tokens = new CommonTokenStream(lexer); 
 		PmmParser parser = new PmmParser(tokens);	
 		//ASTNode ast = parser.program().ast;
-		ASTNode ast = parser.expression().ast;
+		ASTNode ast = parser.program().ast;
 
 
 		// * The AST is shown
