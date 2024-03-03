@@ -7,7 +7,7 @@ public class Print extends AbstractASTNode implements Statement {
 
     private Expression expressionToPrint;
     
-    public Print(int line, int column, Expression expression) {
+    public Print(int line, int column, Expression expressionToPrint) {
         super(line, column);
         this.expressionToPrint = expressionToPrint;
     }
