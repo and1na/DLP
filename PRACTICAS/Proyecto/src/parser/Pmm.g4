@@ -7,6 +7,7 @@ grammar Pmm;
     import ast.definition.*;
     import ast.statement.*;
     import ast.*;
+    import errorhandler.*;
 
 }
 
@@ -148,7 +149,14 @@ type returns [Type ast]:
 structFields returns [List<StructField> ast = new ArrayList<StructField>()]: (idList=ids dots=':' tp=type  ';'
                     {
                         for (Variable v : $idList.ast) {
-                            $ast.add(new StructField(v.getLine(), v.getColumn(), $tp.ast, v.getName()));
+
+                            StructField newPossibleField =
+                                new StructField(v.getLine(), v.getColumn(), $tp.ast, v.getName());
+                            if($ast.contains(newPossibleField)){
+                                new ErrorType(v.getLine(),v.getColumn(),"StructField " + "\'" + v.getName() +  "\'" +   " already defined");
+                            }else{
+                                $ast.add(newPossibleField);
+                            }
                         }
                      }
                     )*
@@ -174,7 +182,12 @@ varDefinition returns [List<VarDefinition> ast = new ArrayList<VarDefinition>()]
                 idl=ids  ':' t=type  ';'
                 {
                     for(Variable var: $idl.ast){
-                        $ast.add(new VarDefinition(var.getLine(), var.getColumn(),var.getName(),$t.ast));
+                        VarDefinition newPossibleVarDef = new VarDefinition(var.getLine(), var.getColumn(),var.getName(),$t.ast);
+                        if($ast.contains(newPossibleVarDef)){
+                                new ErrorType(var.getLine(),var.getColumn(),"Variable " + "\'" + var.getName() + "\'" + " already defined");
+                        }else{
+                            $ast.add(newPossibleVarDef);
+                        }
                     }
                 }
                 ;

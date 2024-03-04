@@ -8,6 +8,7 @@ package parser;
     import ast.definition.*;
     import ast.statement.*;
     import ast.*;
+    import errorhandler.*;
 
 
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
