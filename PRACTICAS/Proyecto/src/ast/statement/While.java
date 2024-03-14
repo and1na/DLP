@@ -2,10 +2,19 @@ package ast.statement;
 
 import ast.expression.Expression;
 import ast.node.AbstractASTNode;
+import visitor.Visitor;
 
 import java.util.List;
 
 public class While extends AbstractASTNode implements Statement{
+
+    public List<Statement> getWhileBody() {
+        return whileBody;
+    }
+
+    public Expression getConditionalExp() {
+        return conditionalExp;
+    }
 
     private List<Statement> whileBody;
     private Expression conditionalExp;
@@ -15,5 +24,10 @@ public class While extends AbstractASTNode implements Statement{
         super(line, column);
         this.whileBody = whileBody;
         this.conditionalExp = conditionalExp;
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
+        return v.visit(this,param);
     }
 }

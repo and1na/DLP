@@ -1,8 +1,8 @@
 package ast.expression;
 
-import ast.node.AbstractASTNode;
+import visitor.Visitor;
 
-public class ArrayAccess  extends AbstractASTNode implements Expression{
+public class ArrayAccess extends AbstractExpression {
 
     private Expression expressionToAccess;
     private Expression index;
@@ -11,5 +11,19 @@ public class ArrayAccess  extends AbstractASTNode implements Expression{
         super(line, column);
         this.expressionToAccess = expressionToAccess;
         this.index = index;
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
+        //Returned value would be received at the visitor method who calls this accept
+        return v.visit(this,param);
+    }
+
+    public Expression getExpressionToAccess() {
+        return expressionToAccess;
+    }
+
+    public Expression getIndex() {
+        return index;
     }
 }

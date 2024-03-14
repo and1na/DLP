@@ -1,8 +1,9 @@
 package ast.expression;
 
-import ast.node.AbstractASTNode;
+import visitor.Visitor;
 
-public class Negation extends AbstractASTNode implements Expression{
+public class Negation extends AbstractExpression {
+
     private Expression expression;
 
     public Negation(int line, int column, Expression expression) {
@@ -10,4 +11,14 @@ public class Negation extends AbstractASTNode implements Expression{
         this.expression = expression;
 
     }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
+        return v.visit(this,param);
+    }
+
+    public Expression getExpression() {
+        return expression;
+    }
+
 }

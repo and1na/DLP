@@ -3,6 +3,7 @@ package ast.definition;
 import ast.node.AbstractASTNode;
 import ast.statement.Statement;
 import ast.type.Type;
+import visitor.Visitor;
 
 import java.util.List;
 
@@ -10,6 +11,15 @@ public class FunctionDefinition extends AbstractASTNode implements Definition{
 
     private String name;
     private Type type;
+
+    public List<VarDefinition> getBodyVarDefinitions() {
+        return bodyVarDefinitions;
+    }
+
+    public List<Statement> getStatements() {
+        return statements;
+    }
+
     private List<VarDefinition> bodyVarDefinitions;
     List<Statement> statements;
 
@@ -30,5 +40,10 @@ public class FunctionDefinition extends AbstractASTNode implements Definition{
     @Override
     public Type getType() {
         return type;
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
+        return v.visit(this,param);
     }
 }

@@ -2,12 +2,16 @@ package ast.statement;
 
 import ast.expression.Expression;
 import ast.node.AbstractASTNode;
+import visitor.Visitor;
 
 import java.util.List;
 
 public class If_Else extends AbstractASTNode implements Statement{
 
     private List<Statement> ifBody;
+
+
+
     private List<Statement> elseBody;
     private Expression conditionalExp;
 
@@ -17,5 +21,22 @@ public class If_Else extends AbstractASTNode implements Statement{
         this.ifBody = ifBody;
         this.elseBody = elseBody;
         this.conditionalExp = conditionalExp;
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
+        return v.visit(this,param);
+    }
+
+    public List<Statement> getIfBody() {
+        return ifBody;
+    }
+
+    public List<Statement> getElseBody() {
+        return elseBody;
+    }
+
+    public Expression getConditionalExp() {
+        return conditionalExp;
     }
 }

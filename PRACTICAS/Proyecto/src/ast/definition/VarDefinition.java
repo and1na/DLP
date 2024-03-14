@@ -2,6 +2,7 @@ package ast.definition;
 
 import ast.node.AbstractASTNode;
 import ast.type.Type;
+import visitor.Visitor;
 
 import java.util.Objects;
 
@@ -31,5 +32,10 @@ public class VarDefinition extends AbstractASTNode implements Definition{
         if (o == null || getClass() != o.getClass()) return false;
         VarDefinition that = (VarDefinition) o;
         return Objects.equals(name, that.name);
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
+        return v.visit(this,param);
     }
 }
