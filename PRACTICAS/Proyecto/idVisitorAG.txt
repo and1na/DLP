@@ -1,0 +1,13 @@
+CFG
+
+(1) VarDefinition: definition → ID type
+(2) FunctionDefinition: definition → ID type varDef* statement*
+(3) Variable: expression → ID
+
+AG
+
+{ expression.definition € definition, definition.isInsertedInST € boolean }
+
+(1) definition.isInsertedInST = ST.insert(definition)
+(2) definition.isInsertedInST = ST.insert(definition)
+(3) expression.definition = ST.find(ID)

@@ -1,5 +1,0 @@
-Crear clase programa
-
-crear clase AbstractASTNode
-
-crear interfaz ASTNode

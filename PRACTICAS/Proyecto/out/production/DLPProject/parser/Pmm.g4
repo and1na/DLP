@@ -22,6 +22,8 @@ program returns [Program ast] locals [List<Definition> definitions = new ArrayLi
 
 
 
+
+
 main returns [FunctionDefinition ast]
     locals [List<VarDefinition> bodyVarDefs = new ArrayList<VarDefinition>(),
         List<Statement> statements = new ArrayList<Statement>()]:
