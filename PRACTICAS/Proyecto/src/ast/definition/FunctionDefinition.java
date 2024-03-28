@@ -11,6 +11,7 @@ public class FunctionDefinition extends AbstractASTNode implements Definition{
 
     private String name;
     private Type type;
+    private int scope;
 
     public List<VarDefinition> getBodyVarDefinitions() {
         return bodyVarDefinitions;
@@ -40,6 +41,16 @@ public class FunctionDefinition extends AbstractASTNode implements Definition{
     @Override
     public Type getType() {
         return type;
+    }
+
+    @Override
+    public void setScope(int scope) {
+        this.scope = scope;
+    }
+
+    @Override
+    public int getScope() {
+        return scope;
     }
 
     @Override

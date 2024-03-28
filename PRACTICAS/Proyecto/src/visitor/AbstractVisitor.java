@@ -106,6 +106,7 @@ public abstract class AbstractVisitor<TP,TR> implements Visitor<TP,TR> {
 
     @Override
     public TR visit(Variable node, TP param) {
+        //PORQUE NO IMPLEMENTAR AQUI EL RECORRIDO A DEFINITION??
         return null;
     }
 
