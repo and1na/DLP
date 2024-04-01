@@ -16,7 +16,6 @@ public abstract class AbstractVisitor<TP,TR> implements Visitor<TP,TR> {
 
     @Override
     public TR visit(Program node, TP param) {
-
         for (Definition def : node.getDefinitions()){
             def.accept(this,param);
         }
@@ -25,7 +24,6 @@ public abstract class AbstractVisitor<TP,TR> implements Visitor<TP,TR> {
 
     @Override
     public TR visit(FunctionInvocation node, TP param) {
-
         node.getFunctionVariable().accept(this,param);
         node.getParameters().forEach(expression -> expression.accept(this,param));
         return null;
