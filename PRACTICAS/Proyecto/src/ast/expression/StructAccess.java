@@ -4,6 +4,8 @@ import visitor.Visitor;
 
 public class StructAccess  extends AbstractExpression  {
 
+
+
     private String structField;
     private Expression expressionToAccess;
 
@@ -21,6 +23,10 @@ public class StructAccess  extends AbstractExpression  {
 
     public Expression getExpressionToAccess() {
         return expressionToAccess;
+    }
+
+    public String getStructField() {
+        return structField;
     }
 
 }

@@ -9,17 +9,28 @@ import java.util.Objects;
 
 public class StructField  extends AbstractASTNode implements ASTNode {
 
-    public Type getOf() {
-        return of;
-    }
 
     private Type of;
+
     private String name;
 
     public StructField(int line, int column, Type of, String name){
         super(line,column);
         this.of = of;
         this.name = name;
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
+        return v.visit(this,param);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Type getOf() {
+        return of;
     }
 
 
@@ -30,8 +41,4 @@ public class StructField  extends AbstractASTNode implements ASTNode {
         return Objects.equals(name, that.name);
     }
 
-    @Override
-    public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
-        return v.visit(this,param);
-    }
 }

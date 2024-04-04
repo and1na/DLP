@@ -8,13 +8,6 @@ import java.util.List;
 
 public class While extends AbstractASTNode implements Statement{
 
-    public List<Statement> getWhileBody() {
-        return whileBody;
-    }
-
-    public Expression getConditionalExp() {
-        return conditionalExp;
-    }
 
     private List<Statement> whileBody;
     private Expression conditionalExp;
@@ -24,6 +17,15 @@ public class While extends AbstractASTNode implements Statement{
         super(line, column);
         this.whileBody = whileBody;
         this.conditionalExp = conditionalExp;
+    }
+
+
+    public List<Statement> getWhileBody() {
+        return whileBody;
+    }
+
+    public Expression getConditionalExp() {
+        return conditionalExp;
     }
 
     @Override

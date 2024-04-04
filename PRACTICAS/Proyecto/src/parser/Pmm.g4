@@ -142,9 +142,9 @@ parametersList returns [List<VarDefinition> ast = new ArrayList<VarDefinition>()
 type returns [Type ast]:
         basicType
         {$ast=$basicType.ast;}
-      | bracket='[' INT_CONSTANT ']' type /**ARRAY TYPE**/
+      | bracket='[' INT_CONSTANT ']' type
         {$ast=new Array($bracket.getLine(),$bracket.getCharPositionInLine()+1,LexerHelper.lexemeToInt($INT_CONSTANT.text),$type.ast);}
-      | st='struct' '{'   structFields /**??????STRUCTFIELD*/ '}'
+      | st='struct' '{'   structFields  '}'
         {$ast = new Struct($st.getLine(),$st.getCharPositionInLine() + 1,$structFields.ast);}
       ;
 

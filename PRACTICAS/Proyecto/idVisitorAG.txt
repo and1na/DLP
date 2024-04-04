@@ -13,20 +13,54 @@ AG
 (3) expression.definition = ST.find(ID)
 
 
+G
 
-
-
-
-
-
-CFG
-
-
-
+(1) FloatLiteral: expression → REAL_CONSTANT
+(2) IntLiteral: expression → INT_CONSTANT
+(3) CharLiteral: expression → CHAR_CONSTANT
+(4) Variable: expression → ID
+(5) FunctionInvocation: expression1 → ID expression2*
+(6) ArrayAccess: expression1 → expression2 expression3
+(7) StructAccess: expression1 → expression2 ID
+(8) Cast: expression1 → type expression2
+(9) UnaryMinus: expression1 → expression2
+(10) Negation: expression1 → expression2
+(11) Arithmetic: expression1 → expression2 expression3
+(12) Comparison: expression1 → expression2 expression3
+(13) Logical: expression1 → expression2 expression3
+(14) Return: statement → expression
+(15) Print: statement → expression
+(16) Input: statement → expression
+(17) Assignment: statement → expression1 expression2
+(18) While: statement1 → expression statement2*
+(19) If_Else: statement1 → expression statement2* statement3*
+(20) FunctionDefinition: statement → ID definition* type varDef* statement*
 
 A
 
-{                   }
+{  expression.type € type  }
 
+*EXPRESSIONS*
+(1) FloatLiteral: expression.type = REAL
+(2) IntLiteral: expression.type = INT
+(3) CharLiteral: expression.type = CHAR
+(4) Variable: expression.type = expression.definition.type
+(5) FunctionInvocation: expression.type = expression2*.forEach(e2 -> expression1.type.parenthesis(e2.type))
+(6) ArrayAccess: expression1.type = expression2.type.squareBrackets(expression3.type)
+(7) StructAccess: expression1.type = expression2.type.dot(ID)
+(8) Cast: expression1.type = expression2.canBeCastedTo(type)
+(9) UnaryMinus: expression1.type = expression2.type.arithmetic()
+(10) Negation: expression1.type = expression2.type.logical()
+(11) Arithmetic: expression1.type = expression2.type.arithmetic(expression3.type)
+(12) Comparison: expression1.type = expression2.type.comparison(expression3.type)
+(13) Logical: expression1.type = expression2.type.logical(expression3.type)
 
-G
+*STATEMENTS*
+(14) Return: expression.type.mustPromoteTo(statement.retType)
+(15) Print: expression.type.asBuiltInType()
+(16) Input: expression.type.asBuiltInType()
+(17) Assignment: expression2.type.mustPromoteTo(expression1.type)
+(18) While: expression1.type.asLogical()
+(19) If_Else: expression1.type.asLogical()
+(20) FunctionDefinition: statement*.forEach(st -> st.returnType = type.returnType)
+

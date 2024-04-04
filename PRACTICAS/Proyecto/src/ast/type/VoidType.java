@@ -1,9 +1,8 @@
 package ast.type;
 
-import ast.node.AbstractASTNode;
 import visitor.Visitor;
 
-public class VoidType extends AbstractASTNode implements Type {
+public class VoidType extends AbstractType {
 
     public VoidType(int line, int column){
         super(line,column);

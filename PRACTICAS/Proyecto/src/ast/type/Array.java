@@ -1,17 +1,11 @@
 package ast.type;
 
 import ast.node.ASTNode;
-import ast.node.AbstractASTNode;
 import visitor.Visitor;
 
-public class Array extends AbstractASTNode implements Type {
+public class Array extends AbstractType {
 
     private int size;
-
-    public Type getOf() {
-        return of;
-    }
-
     private Type of;
 
     public Array(int line, int column, int size, Type of){
@@ -21,7 +15,22 @@ public class Array extends AbstractASTNode implements Type {
     }
 
     @Override
+    public Type squareBrackets(Type other, ASTNode ast) {
+        if(other instanceof IntType) return of;
+
+        return super.squareBrackets(other, ast);
+    }
+
+    @Override
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
         return v.visit(this,param);
     }
+
+    public Type getOf() {
+        return of;
+    }
+
+
+
+
 }
