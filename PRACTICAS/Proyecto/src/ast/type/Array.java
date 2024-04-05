@@ -30,6 +30,10 @@ public class Array extends AbstractType {
         return of;
     }
 
+    public String toString() {
+        return "Array";
+    }
+
 
 
 

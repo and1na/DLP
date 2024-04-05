@@ -25,8 +25,6 @@ public interface Type extends ASTNode {
 
     Type mustPromoteTo(Type other, ASTNode ast);
 
-    Type asLogical(Type other, ASTNode ast);
-
     boolean isLogical();
 
     Type asBuiltInType(Type other, ASTNode ast);

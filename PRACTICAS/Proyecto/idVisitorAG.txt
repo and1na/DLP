@@ -34,7 +34,7 @@ G
 (17) Assignment: statement → expression1 expression2
 (18) While: statement1 → expression statement2*
 (19) If_Else: statement1 → expression statement2* statement3*
-(20) FunctionDefinition: statement → ID definition* type varDef* statement*
+(20) FunctionDefinition: definition1 → ID definition* type varDef* statement*
 
 A
 
@@ -62,5 +62,5 @@ A
 (17) Assignment: expression2.type.mustPromoteTo(expression1.type)
 (18) While: expression1.type.asLogical()
 (19) If_Else: expression1.type.asLogical()
-(20) FunctionDefinition: statement*.forEach(st -> st.returnType = type.returnType)
+(20) FunctionDefinition: statement*.forEach(st -> st.accept(definition1.type)
 

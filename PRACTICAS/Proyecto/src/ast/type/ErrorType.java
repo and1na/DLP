@@ -27,4 +27,6 @@ public class ErrorType extends AbstractType {
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
         return v.visit(this,param);
     }
+
+
 }

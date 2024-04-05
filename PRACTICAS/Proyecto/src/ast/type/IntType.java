@@ -3,7 +3,6 @@ package ast.type;
 import ast.node.ASTNode;
 import visitor.Visitor;
 
-import java.util.List;
 
 public class IntType extends AbstractType {
 
@@ -21,11 +20,27 @@ public class IntType extends AbstractType {
 
         return super.arithmetic(other, ast);
     }
-
-
     @Override
-    public Type logical(ASTNode ast) {
-        return this;
+    public Type comparison(Type other, ASTNode ast) {
+        if(other.isBuiltInType()) return this;
+
+        return super.comparison(other, ast);
+    }
+    @Override
+    public Type mustPromoteTo(Type other, ASTNode ast) {
+        if(other instanceof IntType || other instanceof DoubleType) return other;
+
+        return super.mustPromoteTo(other, ast);
+    }
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
+        return v.visit(this,param);
+    }
+    @Override
+    public Type canBeCasted(Type other, ASTNode ast) {
+        if(other.isBuiltInType()) return this;
+
+        return super.canBeCasted(other, ast);
     }
     @Override
     public Type logical(Type other, ASTNode ast) {
@@ -33,46 +48,14 @@ public class IntType extends AbstractType {
 
         return super.logical(other, ast);
     }
-
-
     @Override
-    public Type comparison(Type other, ASTNode ast) {
-        if(other.isBuiltInType()) return this;
-
-        return super.comparison(other, ast);
-    }
-
-
-    @Override
-    public Type mustPromoteTo(Type other, ASTNode ast) {
-        if(other instanceof IntType || other instanceof DoubleType) return other;
-
-        return super.mustPromoteTo(other, ast);
-    }
-
-    @Override
-    public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
-        return v.visit(this,param);
-    }
-
-
-    @Override
-    public Type canBeCasted(Type other, ASTNode ast) {
-        if(other.isBuiltInType()) return this;
-
-        return super.canBeCasted(other, ast);
-    }
-
-    @Override
-    public Type asLogical(Type other, ASTNode ast) {
+    public Type logical(ASTNode ast) {
         return this;
     }
-
     @Override
     public Type asBuiltInType(Type other, ASTNode ast) {
         return this;
     }
-
     @Override
     public boolean isLogical() {
         return true;
@@ -80,6 +63,10 @@ public class IntType extends AbstractType {
     @Override
     public boolean isBuiltInType() {
         return true;
+    }
+    @Override
+    public String toString() {
+        return "Int";
     }
 
 }

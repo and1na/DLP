@@ -33,4 +33,8 @@ public class Struct extends AbstractType {
         }
         return new ErrorType(ast.getLine(), ast.getColumn(), "Field " + id + " not found in struct");
     }
+
+    public String toString() {
+        return "Struct";
+    }
 }

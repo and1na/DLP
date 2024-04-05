@@ -26,6 +26,7 @@ public class IdentificationVisitor extends AbstractVisitor<Void,Void> {
                     new ErrorType(node.getLine(),
                             node.getColumn(),
                             "Variable " + node.getName() + " hasn't been defined"));
+            node.setDefinition(varDef);
         }
 
         return null;
@@ -34,7 +35,7 @@ public class IdentificationVisitor extends AbstractVisitor<Void,Void> {
     @Override
     public Void visit(FunctionDefinition node, Void param) {
         if (!symbolTable.insert(node)){
-            new ErrorType(node.getLine(),node.getLine(),"Function already defined" + node.getName());
+            new ErrorType(node.getLine(),node.getLine(),"Function already defined: " + node.getName());
         }
 
         //Create new scope and add
