@@ -1,5 +1,5 @@
-# DLP
+#DLP
 
-¡Hola!
+Hello!
 
-Este repositorio es para el proyecto de desarrollo de un compilador en el marco de la asignatura de Diseño de Lenguajes de Programación, tercer año de Ingeniería Informática del Software en la Universidad de Oviedo.
+This repository is for the compiler development project within the Programming Language Design course, third year of Software Computer Engineering at the University of Oviedo.
