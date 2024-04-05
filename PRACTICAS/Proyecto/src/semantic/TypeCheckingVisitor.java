@@ -8,8 +8,6 @@ import ast.type.*;
 import visitor.AbstractVisitor;
 
 
-//In this visitor, we give value to expressions attribute lvalue at the same time we keep traversing the AST
-//Here we have to implement just the expressions visitors (just expressions have LValues)
 public class TypeCheckingVisitor extends AbstractVisitor<Function,Void> {
 
     @Override
@@ -172,12 +170,6 @@ public class TypeCheckingVisitor extends AbstractVisitor<Function,Void> {
         return null;
     }
 
-    public Void visit(FunctionDefinition node, Function param){
-
-//        node.getBodyVarDefinitions().forEach(varDefinition -> varDefinition.accept(this,node));
-//        node.getStatements().forEach(statement -> statement.accept(this,node));
-//        return null;
-    }
 
     public Void visit(Return node, Function param){
 
@@ -187,7 +179,23 @@ public class TypeCheckingVisitor extends AbstractVisitor<Function,Void> {
     }
 
     public Void visit(If_Else node, Function param){
-       return null;
+
+        node.getConditionalExp().accept(this,param);
+        node.getIfBody().forEach(statement -> statement.accept(this,param));
+        node.getElseBody().forEach(statement -> statement.accept(this,param));
+        node.getConditionalExp().getType().asLogical(node.getConditionalExp().getType(),node);
+
+        return null;
+    }
+
+
+    public Void visit(FunctionDefinition node, Function param){
+        node.getType().accept(this,param);
+        node.getBodyVarDefinitions().forEach(varDefinition -> varDefinition.accept(this,param));
+        node.getStatements().forEach(statement -> statement.accept(this, (Function) node.getType()));
+
+        return null;
+
     }
 
 }

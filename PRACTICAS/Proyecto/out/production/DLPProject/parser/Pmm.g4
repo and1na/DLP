@@ -74,7 +74,8 @@ expression returns [Expression ast]:  INT_CONSTANT {$ast = new IntLiteral($INT_C
               {$ast = new Logical($operator.getLine(),$operator.getCharPositionInLine()+1,$exp1.ast,$exp2.ast,$operator.text);}
             ;
 
-statement returns [List<Statement> ast = new ArrayList<Statement>()]:
+statement returns [List<Statement> ast = new ArrayList<Statement>()]
+    locals [List<Statement> elseBodyL = new ArrayList<Statement>()]:
             ret='return' expression ';'
                 {$ast.add(new Return($ret.getLine(),$ret.getCharPositionInLine()+1,$expression.ast));}
           | kw='print' expressionList ';'
@@ -93,10 +94,10 @@ statement returns [List<Statement> ast = new ArrayList<Statement>()]:
                {$ast.add(new Assignment($eq.getLine(),$eq.getCharPositionInLine()+1,$var.ast,$val.ast));}
           | kw='while' cond=expression ':' bd=body
                 {$ast.add(new While($kw.getLine(), $kw.getCharPositionInLine()+1, $body.ast, $cond.ast));}
-          | kw='if' cond=expression ':' ifbody=body ('else' ':' elsebody=body)?
+          | kw='if' cond=expression ':' ifbody=body ('else' ':' elsebody=body {$elseBodyL.addAll($elsebody.ast);})?
                 {
                     $ast.add(new If_Else($kw.getLine(), $kw.getCharPositionInLine()+1,$ifbody.ast,
-                        $elsebody.ast,$cond.ast));
+                        $elseBodyL,$cond.ast));
                 }
           | funcInv=functioninvocation ';'
                 {$ast.add($funcInv.ast);}
@@ -142,9 +143,9 @@ parametersList returns [List<VarDefinition> ast = new ArrayList<VarDefinition>()
 type returns [Type ast]:
         basicType
         {$ast=$basicType.ast;}
-      | bracket='[' INT_CONSTANT ']' type /**ARRAY TYPE**/
+      | bracket='[' INT_CONSTANT ']' type
         {$ast=new Array($bracket.getLine(),$bracket.getCharPositionInLine()+1,LexerHelper.lexemeToInt($INT_CONSTANT.text),$type.ast);}
-      | st='struct' '{'   structFields /**??????STRUCTFIELD*/ '}'
+      | st='struct' '{'   structFields  '}'
         {$ast = new Struct($st.getLine(),$st.getCharPositionInLine() + 1,$structFields.ast);}
       ;
 
