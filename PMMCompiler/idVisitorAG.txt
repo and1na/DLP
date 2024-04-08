@@ -79,18 +79,23 @@ G
 (2) VarDefinition: vardefinition → type ID
 (3) FunctionType: type1 → type2 vardefinition*
 (4) Variable: expression → ID
-//regla program
-//regla struct
+(5) Program: program → vardefinition* funcDefinition* main
+(6) Struct: struct → structField
+
 AG
 
 { definition.offset € int }
 
+
+
+*VARIABLES LOCALES*
 (1) int offset = 0;
     vardefinition*.forEach(vd -> {
         offset += v.type.numberOfBytes();
         vd.offset = -offset;
     });
 
+*PARAMETROS*
 (3) int offset = 4;
     for(int i = vardefinition.size() - 1; i >= 0; i--){
         vardefinition.get(i).offset = offset;
@@ -98,3 +103,24 @@ AG
     }
 
     //calcular offsets de ,los globales y structs
+
+*VARIABLES GLOBALES*
+
+(5) int offset = 0;
+    vardefinition*.forEach(vd -> {
+        offset += vd.type.numberOfBytes();
+        vd.offset = offset;
+    });
+
+*STRUCT*
+
+(6) int offset = 0;
+    structField*.forEach(sf -> {
+        sf.offset = offset;
+        offset += sf.type.numberOfBytes();
+    });
+
+    struct.offset = offset;
+
+
+

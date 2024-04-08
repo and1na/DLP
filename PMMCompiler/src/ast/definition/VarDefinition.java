@@ -11,11 +11,20 @@ public class VarDefinition extends AbstractASTNode implements Definition{
     private String name;
     private Type type;
     private int scope;
+    private int offset;
 
     public VarDefinition(int line,int column, String name, Type type){
         super(line,column);
         this.name = name;
         this.type = type;
+    }
+
+    public int getOffset(){
+        return offset;
+    }
+
+    public void setOffset(int offset){
+        this.offset = offset;
     }
 
     @Override
