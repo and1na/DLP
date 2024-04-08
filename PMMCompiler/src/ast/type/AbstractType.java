@@ -4,11 +4,6 @@ import ast.node.ASTNode;
 import ast.node.AbstractASTNode;
 import java.util.List;
 
-public abstract class AbstractType extends AbstractASTNode implements Type{
-
-    public AbstractType(int line, int column) {
-        super(line, column);
-    }
 
       /*
          WARNING:
@@ -24,10 +19,16 @@ public abstract class AbstractType extends AbstractASTNode implements Type{
 
         */
 
+public abstract class AbstractType extends AbstractASTNode implements Type{
+
+    public AbstractType(int line, int column) {
+        super(line, column);
+    }
+
     /**
      * Method used to check if function call parameters are valid
-     * @param otherList
-     * @param ast
+     * @param otherList List of types of the parameters
+     * @param ast ASTNode
      * @return Type
      */
     @Override
@@ -39,8 +40,8 @@ public abstract class AbstractType extends AbstractASTNode implements Type{
     }
     /**
      * This method is used to check if a cast to "other" is possible for the type "this"
-     * @param other
-     * @param ast
+     * @param other Type to cast to
+     * @param ast ASTNode
      * @return  Type
      */
     @Override
@@ -52,9 +53,9 @@ public abstract class AbstractType extends AbstractASTNode implements Type{
     }
     /**
      * This method is used to check if "this" is a built-in type
-     * @param other
-     * @param ast
-     * @return
+     * @param other Type
+     * @param ast ASTNode
+     * @return Type
      */
     @Override
     public Type asBuiltInType(Type other, ASTNode ast) {
@@ -66,8 +67,8 @@ public abstract class AbstractType extends AbstractASTNode implements Type{
     /**
      * This method is used to check if a type can be promoted to another type (returned type
      * from a function)
-     * @param other
-     * @param ast
+     * @param other Type to promote to
+     * @param ast ASTNode
      * @return Type
      */
     @Override
@@ -83,8 +84,8 @@ public abstract class AbstractType extends AbstractASTNode implements Type{
     }
     /**
      * This method is used to check if a two operand logical operation is valid
-     * @param other
-     * @param ast
+     * @param other Type
+     * @param ast ASTNode
      * @return Type
      */
     @Override
@@ -98,7 +99,7 @@ public abstract class AbstractType extends AbstractASTNode implements Type{
     /**
      * This method is used to check if a unary logical operation is valid
      * (also valid for already checked logical expressions as they are already reduced to a single type)
-     * @param ast
+     * @param ast ASTNode
      * @return Type
      */
     @Override
@@ -108,8 +109,8 @@ public abstract class AbstractType extends AbstractASTNode implements Type{
     }
     /**
      * This method is used to check if an array access is possible for the type
-     * @param other
-     * @param ast
+     * @param other Type
+     * @param ast ASTNode
      * @return Type
      */
     @Override
@@ -121,8 +122,8 @@ public abstract class AbstractType extends AbstractASTNode implements Type{
     }
     /**
      * This method is used to check if a field access is possible for the type
-     * @param id
-     * @param ast
+     * @param id String
+     * @param ast ASTNode
      * @return  Type
      */
     @Override
@@ -132,7 +133,7 @@ public abstract class AbstractType extends AbstractASTNode implements Type{
     }
     /**
      * This method is used to check if a unary arithmetic operation is valid
-     * @param ast
+     * @param ast ASTNode
      * @return Type
      */
     @Override
@@ -142,8 +143,8 @@ public abstract class AbstractType extends AbstractASTNode implements Type{
     }
     /**
      * This method is used to check if a two operand arithmetic operation is valid
-     * @param other
-     * @param ast
+     * @param other Type
+     * @param  ast ASTNode
      * @return Type
      */
     @Override
@@ -154,8 +155,8 @@ public abstract class AbstractType extends AbstractASTNode implements Type{
     }
     /**
      * This method is used to check if a two operand comparison operation is valid
-     * @param other
-     * @param ast
+     * @param other Type
+     * @param ast ASTNode
      * @return Type
      */
     @Override
