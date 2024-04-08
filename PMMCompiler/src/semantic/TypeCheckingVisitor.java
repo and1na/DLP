@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TypeCheckingVisitor extends AbstractVisitor<Function,Void> {
+public class TypeCheckingVisitor extends AbstractVisitor<Type,Void> {
 
     @Override
-    public Void visit(ArithmeticComparison node, Function param) {
+    public Void visit(ArithmeticComparison node, Type param) {
         node.getLeftExpression().accept(this, param);
         node.getRightExpression().accept(this, param);
         node.setLvalue(false);
@@ -23,7 +23,7 @@ public class TypeCheckingVisitor extends AbstractVisitor<Function,Void> {
     }
 
     @Override
-    public Void visit(Arithmetic node, Function param) {
+    public Void visit(Arithmetic node, Type param) {
         node.getLeftExpression().accept(this, param);
         node.getRightExpression().accept(this, param);
         node.setLvalue(false);
@@ -36,7 +36,7 @@ public class TypeCheckingVisitor extends AbstractVisitor<Function,Void> {
         If they aren´t, an error is thrown from the abstract type class
      */
     @Override
-    public Void visit(Logical node, Function param) {
+    public Void visit(Logical node, Type param) {
         node.getLeftExpression().accept(this, param);
         node.getRightExpression().accept(this, param);
         node.setLvalue(false);
@@ -49,7 +49,7 @@ public class TypeCheckingVisitor extends AbstractVisitor<Function,Void> {
         If it isn´t, an error is thrown from the abstract type class
      */
     @Override
-    public Void visit(Negation node, Function param) {
+    public Void visit(Negation node, Type param) {
         node.getExpression().accept(this, param);
         node.setLvalue(false);
         node.setType(node.getExpression().getType().logical(node));
@@ -57,7 +57,7 @@ public class TypeCheckingVisitor extends AbstractVisitor<Function,Void> {
     }
 
     @Override
-    public Void visit(ArrayAccess node, Function param) {
+    public Void visit(ArrayAccess node, Type param) {
         node.getExpressionToAccess().accept(this, param);
         node.getIndex().accept(this, param);
         node.setLvalue(true);
@@ -66,7 +66,7 @@ public class TypeCheckingVisitor extends AbstractVisitor<Function,Void> {
     }
 
     @Override
-    public Void visit(Cast node, Function param) {
+    public Void visit(Cast node, Type param) {
         node.getToType().accept(this,param);
         node.getExpressionToCast().accept(this,param);
         node.setLvalue(false);
@@ -75,21 +75,21 @@ public class TypeCheckingVisitor extends AbstractVisitor<Function,Void> {
     }
 
     @Override
-    public Void visit(CharLiteral node, Function param) {
+    public Void visit(CharLiteral node, Type param) {
         node.setLvalue(false);
         node.setType(new CharType(node.getLine(),node.getColumn()));
         return null;
     }
 
     @Override
-    public Void visit(FloatLiteral node, Function param) {
+    public Void visit(FloatLiteral node, Type param) {
         node.setLvalue(false);
         node.setType(new DoubleType(node.getLine(),node.getColumn()));
         return null;
     }
 
     @Override
-    public Void visit(IntLiteral node, Function param) {
+    public Void visit(IntLiteral node, Type param) {
         node.setLvalue(false);
         node.setType(new IntType(node.getLine(),node.getColumn()));
         return null;
@@ -97,7 +97,7 @@ public class TypeCheckingVisitor extends AbstractVisitor<Function,Void> {
 
 
     @Override
-    public Void visit(FunctionInvocation node, Function param) {
+    public Void visit(FunctionInvocation node, Type param) {
         node.getFunctionVariable().accept(this,param);
         node.getParameters().forEach(expression -> expression.accept(this,param));
         node.setLvalue(false);
@@ -114,7 +114,7 @@ public class TypeCheckingVisitor extends AbstractVisitor<Function,Void> {
 
 
     @Override
-    public Void visit(StructAccess node, Function param) {
+    public Void visit(StructAccess node, Type param) {
         node.getExpressionToAccess().accept(this,param);
         node.setLvalue(true);
         node.setType(node.getExpressionToAccess().getType().dot(node.getStructField(),node));
@@ -122,7 +122,7 @@ public class TypeCheckingVisitor extends AbstractVisitor<Function,Void> {
     }
 
     @Override
-    public Void visit(UnaryMinus node, Function param) {
+    public Void visit(UnaryMinus node, Type param) {
         node.getExpression().accept(this,param);
         node.setLvalue(false);
         node.setType(node.getExpression().getType().arithmetic(node));
@@ -130,14 +130,14 @@ public class TypeCheckingVisitor extends AbstractVisitor<Function,Void> {
     }
 
     @Override
-    public Void visit(Variable node, Function param) {
+    public Void visit(Variable node, Type param) {
         node.setLvalue(true);
         node.setType(node.getDefinition().getType());
         return null;
     }
 
     @Override
-    public Void visit(Assignment node, Function param) {
+    public Void visit(Assignment node, Type param) {
         //It´s mandatory to visit first both parts of the assignment, otherwise, we won´t know if
         //they are Lvalues or not
         node.getVar().accept(this, param);
@@ -151,7 +151,7 @@ public class TypeCheckingVisitor extends AbstractVisitor<Function,Void> {
     }
 
     @Override
-    public Void visit(Input node, Function param) {
+    public Void visit(Input node, Type param) {
         node.getInputExpression().accept(this,param);
         if(!node.getInputExpression().getLvalue()){
             new ErrorType(node.getLine(),node.getColumn(),
@@ -165,14 +165,14 @@ public class TypeCheckingVisitor extends AbstractVisitor<Function,Void> {
         Here, if expression type is an int (returned from logical method), it doesn´t throw an error
         Otherwise, an error is thrown from the abstract type class
      */
-    public Void visit(While node, Function param){
+    public Void visit(While node, Type param){
         node.getConditionalExp().accept(this,param);
         node.getWhileBody().forEach(statement -> statement.accept(this,param));
         node.getConditionalExp().getType().logical(node);
         return null;
     }
 
-    public Void visit(If_Else node, Function param){
+    public Void visit(If_Else node, Type param){
         node.getConditionalExp().accept(this,param);
         node.getIfBody().forEach(statement -> statement.accept(this,param));
         node.getElseBody().forEach(statement -> statement.accept(this,param));
@@ -182,16 +182,16 @@ public class TypeCheckingVisitor extends AbstractVisitor<Function,Void> {
 
 
 
-    public Void visit(Print node, Function param){
+    public Void visit(Print node, Type param){
         node.getExpressionToPrint().accept(this,param);
         node.getExpressionToPrint().getType().asBuiltInType(node.getExpressionToPrint().getType(),node);
         return null;
     }
 
 
-    public Void visit(Return node, Function param){
+    public Void visit(Return node, Type param){
         node.getReturnedExpression().accept(this,param);
-        node.getReturnedExpression().getType().mustPromoteTo(param.getReturnType(),node);
+        node.getReturnedExpression().getType().mustPromoteTo(param,node);
         return null;
     }
 
@@ -199,10 +199,11 @@ public class TypeCheckingVisitor extends AbstractVisitor<Function,Void> {
     * It may seem that I could skip this method implementation, but implementing this visit is mandatory since
     * I have to pass the function type to the statements to get the return type at the return statement
     * */
-    public Void visit(FunctionDefinition node, Function param){
+    public Void visit(FunctionDefinition node, Type param){
         node.getType().accept(this,param);
         node.getBodyVarDefinitions().forEach(varDefinition -> varDefinition.accept(this,param));
-        node.getStatements().forEach(statement -> statement.accept(this, (Function) node.getType()));
+        Function functionType = (Function) node.getType();
+        node.getStatements().forEach(statement -> statement.accept(this, functionType.getReturnType()));
         return null;
     }
 

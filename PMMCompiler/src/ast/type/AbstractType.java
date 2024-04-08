@@ -75,8 +75,6 @@ public abstract class AbstractType extends AbstractASTNode implements Type{
     public Type mustPromoteTo(Type other, ASTNode ast) {
         if (other instanceof ErrorType) return other;
 
-        if (this instanceof ErrorType) return this;
-
         //This would be executed if super class is called or if returned type is
         //a type which doesn't override this method (non-built-in)
         return new ErrorType(ast.getLine(), ast.getColumn(),
@@ -117,8 +115,7 @@ public abstract class AbstractType extends AbstractASTNode implements Type{
     public Type squareBrackets(Type other, ASTNode ast) {
         if (other instanceof ErrorType) return other;
         return new ErrorType(ast.getLine(), ast.getColumn(),
-                "Type " + this + " does not support indexing with" +
-                " type " + other);
+                "Type " + this + " does not support indexing");
     }
     /**
      * This method is used to check if a field access is possible for the type

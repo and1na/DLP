@@ -13,6 +13,10 @@ AG
 (3) expression.definition = ST.find(ID)
 
 
+**********************
+***TYPE CHECKING AG***
+**********************
+
 G
 
 (1) FloatLiteral: expression → REAL_CONSTANT
@@ -64,3 +68,33 @@ A
 (19) If_Else: expression1.type.asLogical()
 (20) FunctionDefinition: statement*.forEach(st -> st.accept(definition1.type)
 
+
+
+**********************
+*****OFFSET AG********
+**********************
+
+G
+(1) FuncDefinition: funcdefinition → type ID vardefinition* statement*
+(2) VarDefinition: vardefinition → type ID
+(3) FunctionType: type1 → type2 vardefinition*
+(4) Variable: expression → ID
+//regla program
+//regla struct
+AG
+
+{ definition.offset € int }
+
+(1) int offset = 0;
+    vardefinition*.forEach(vd -> {
+        offset += v.type.numberOfBytes();
+        vd.offset = -offset;
+    });
+
+(3) int offset = 4;
+    for(int i = vardefinition.size() - 1; i >= 0; i--){
+        vardefinition.get(i).offset = offset;
+        offset += vardefinition.get(i).type.numberOfBytes();
+    }
+
+    //calcular offsets de ,los globales y structs
