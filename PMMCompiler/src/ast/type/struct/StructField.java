@@ -9,8 +9,9 @@ import java.util.Objects;
 
 public class StructField  extends AbstractASTNode implements ASTNode {
 
-
     private Type of;
+
+    private int offset;
 
     private String name;
 
@@ -27,6 +28,14 @@ public class StructField  extends AbstractASTNode implements ASTNode {
 
     public String getName() {
         return name;
+    }
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
     }
 
     public Type getOf() {

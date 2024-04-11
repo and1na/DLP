@@ -34,6 +34,15 @@ public class Struct extends AbstractType {
         return new ErrorType(ast.getLine(), ast.getColumn(), "Field " + id + " not found in struct");
     }
 
+    @Override
+    public int numberOfBytes() {
+        int bytes = 0;
+        for (StructField field : fields) {
+            bytes += field.getOf().numberOfBytes();
+        }
+        return bytes;
+    }
+
     public String toString() {
         return "Struct";
     }

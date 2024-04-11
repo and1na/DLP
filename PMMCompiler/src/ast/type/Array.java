@@ -34,7 +34,7 @@ public class Array extends AbstractType {
         return "Array";
     }
 
-
-
-
+    public int numberOfBytes() {
+        return size * of.numberOfBytes();
+    }
 }
