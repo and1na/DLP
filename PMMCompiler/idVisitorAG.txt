@@ -98,3 +98,7 @@ AG
     }
 
     //calcular offsets de ,los globales y structs
+
+
+//TODO: calcular offsets de ... y ..., cambiar tipo de retorno a bool en el visitor de typechecking para confirmar
+// que existe un return en todas las ramas de una función
