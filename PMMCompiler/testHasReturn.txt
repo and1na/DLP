@@ -1,0 +1,25 @@
+a:int;
+
+def withoutReturn():int{
+
+    b:double;
+
+    b = 1.0;
+
+
+}
+
+def withReturn():double{
+
+    b:double;
+    b = 1.0;
+
+    while(b < 10.0):{
+        if(b == 5.0):{
+        }
+    }
+}
+
+
+def main():{
+}

@@ -6,7 +6,7 @@ import visitor.Visitor;
 
 import java.util.List;
 
-public class While extends AbstractASTNode implements Statement{
+public class While extends AbstractStatement{
 
 
     private List<Statement> whileBody;
@@ -17,8 +17,19 @@ public class While extends AbstractASTNode implements Statement{
         super(line, column);
         this.whileBody = whileBody;
         this.conditionalExp = conditionalExp;
+        this.hasReturn = checkReturn();
     }
 
+
+    private boolean checkReturn(){
+        for (Statement s : whileBody) {
+            if (s.hasReturn()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     public List<Statement> getWhileBody() {
         return whileBody;

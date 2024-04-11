@@ -4,7 +4,7 @@ import ast.expression.Expression;
 import ast.node.AbstractASTNode;
 import visitor.Visitor;
 
-public class Print extends AbstractASTNode implements Statement {
+public class Print extends AbstractStatement {
 
     public Expression getExpressionToPrint() {
         return expressionToPrint;
@@ -15,6 +15,7 @@ public class Print extends AbstractASTNode implements Statement {
     public Print(int line, int column, Expression expressionToPrint) {
         super(line, column);
         this.expressionToPrint = expressionToPrint;
+        super.hasReturn = false;
     }
 
     @Override

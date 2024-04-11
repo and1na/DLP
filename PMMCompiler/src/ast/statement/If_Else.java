@@ -6,12 +6,9 @@ import visitor.Visitor;
 
 import java.util.List;
 
-public class If_Else extends AbstractASTNode implements Statement{
+public class If_Else extends AbstractStatement{
 
     private List<Statement> ifBody;
-
-
-
     private List<Statement> elseBody;
     private Expression conditionalExp;
 
@@ -21,7 +18,25 @@ public class If_Else extends AbstractASTNode implements Statement{
         this.ifBody = ifBody;
         this.elseBody = elseBody;
         this.conditionalExp = conditionalExp;
+        this.hasReturn = checkHasReturn();
+
     }
+
+    private boolean checkHasReturn() {
+        for (Statement statement : ifBody) {
+            if (statement.hasReturn()) {
+                return true;
+            }
+        }
+        for (Statement statement : elseBody) {
+            if (statement.hasReturn()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 
     @Override
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {

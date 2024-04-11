@@ -29,4 +29,9 @@ public class FunctionInvocation extends AbstractExpression implements Statement 
     public Variable getFunctionVariable() {
         return functionVariable;
     }
+
+    @Override
+    public boolean hasReturn() {
+        return false;
+    }
 }

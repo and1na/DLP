@@ -14,6 +14,7 @@ public class FunctionDefinition extends AbstractASTNode implements Definition{
     private int scope;
     private List<VarDefinition> bodyVarDefinitions;
     List<Statement> statements;
+    private boolean hasReturn;
 
     public FunctionDefinition(int line,int column, String name, Type type, List<VarDefinition> varDefs,List<Statement> statements){
         super(line,column);
@@ -49,6 +50,14 @@ public class FunctionDefinition extends AbstractASTNode implements Definition{
 
     public List<Statement> getStatements() {
         return statements;
+    }
+
+    public void setHasReturn(boolean hasReturn) {
+        this.hasReturn = hasReturn;
+    }
+
+    public boolean hasReturn() {
+        return hasReturn;
     }
 
     @Override

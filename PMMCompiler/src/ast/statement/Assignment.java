@@ -4,7 +4,7 @@ import ast.expression.Expression;
 import ast.node.AbstractASTNode;
 import visitor.Visitor;
 
-public class Assignment extends AbstractASTNode implements Statement {
+public class Assignment extends AbstractStatement {
 
     private Expression var;
     private Expression value;
@@ -13,6 +13,7 @@ public class Assignment extends AbstractASTNode implements Statement {
         super(line, column);
         this.var = var;
         this.value = value;
+        this.hasReturn = false;
     }
 
     @Override

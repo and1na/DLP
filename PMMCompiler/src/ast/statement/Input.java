@@ -5,13 +5,14 @@ import ast.expression.Expression;
 import ast.node.AbstractASTNode;
 import visitor.Visitor;
 
-public class Input extends AbstractASTNode implements Statement {
+public class Input extends AbstractStatement {
 
     private Expression inputExpression;
 
     public Input(int line, int column, Expression inputExpression) {
         super(line, column);
         this.inputExpression = inputExpression;
+        super.hasReturn = false;
     }
 
     @Override
