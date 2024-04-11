@@ -16,9 +16,9 @@ public abstract class AbstractVisitor<TP,TR> implements Visitor<TP,TR> {
 
     @Override
     public TR visit(Program node, TP param) {
-        for (Definition def : node.getDefinitions()){
-            def.accept(this,param);
-        }
+
+        node.getVarDefinitions().forEach(vDef -> vDef.accept(this,param));
+        node.getFunctionDefinitions().forEach(fDef -> fDef.accept(this,param));
         return null;
     }
 

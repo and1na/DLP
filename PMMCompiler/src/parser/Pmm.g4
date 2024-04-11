@@ -11,18 +11,16 @@ grammar Pmm;
 
 }
 
-program returns [Program ast] locals [List<Definition> definitions = new ArrayList<Definition>()]:
-                        (v=varDefinition {$definitions.addAll($v.ast);} | f=funcDefinition {$definitions.add($f.ast);} )*
+program returns [Program ast]
+    locals [List<FunctionDefinition> funcDefinitions = new ArrayList<FunctionDefinition>(),
+            List<VarDefinition> globalVarDefs = new ArrayList<VarDefinition>()]:
+                        (v=varDefinition {$globalVarDefs.addAll($v.ast);})* ( f=funcDefinition {$funcDefinitions.add($f.ast);} )*
                         main EOF
                         {
-                            $definitions.add($main.ast);
-                            $ast = new Program(0,0,$definitions);
+                            $funcDefinitions.add($main.ast);
+                            $ast = new Program(0,0,$globalVarDefs,$funcDefinitions);
                         }
                 ;
-
-
-
-
 
 main returns [FunctionDefinition ast]
     locals [List<VarDefinition> bodyVarDefs = new ArrayList<VarDefinition>(),
