@@ -1,4 +1,4 @@
-// Generated from /home/nof4c3/Documents/uni/DLP/PMMCompiler/src/parser/Pmm.g4 by ANTLR 4.13.1
+// Generated from C:/Users/danie/Documents/GitHub/DLP/PMMCompiler/src/parser/Pmm.g4 by ANTLR 4.13.1
 package parser;
 
     import ast.expression.*;
@@ -651,6 +651,7 @@ public class PmmParser extends Parser {
 	public static class StatementContext extends ParserRuleContext {
 		public List<Statement> ast = new ArrayList<Statement>();
 		public List<Statement> elseBodyL = new ArrayList<Statement>();
+		public boolean hasElseBody = false;
 		public Token ret;
 		public ExpressionContext expression;
 		public Token kw;
@@ -802,13 +803,15 @@ public class PmmParser extends Parser {
 					match(T__4);
 					setState(176);
 					((StatementContext)_localctx).elsebody = body();
-					_localctx.elseBodyL.addAll(((StatementContext)_localctx).elsebody.ast);
+					 ((StatementContext)_localctx).hasElseBody =  true;
+					                                                                                _localctx.elseBodyL.addAll(((StatementContext)_localctx).elsebody.ast);
+					                                                                                
 					}
 					break;
 				}
 
 				                    _localctx.ast.add(new If_Else(((StatementContext)_localctx).kw.getLine(), ((StatementContext)_localctx).kw.getCharPositionInLine()+1,((StatementContext)_localctx).ifbody.ast,
-				                        _localctx.elseBodyL,((StatementContext)_localctx).cond.ast));
+				                        _localctx.elseBodyL,((StatementContext)_localctx).cond.ast, _localctx.hasElseBody));
 				                
 				}
 				break;

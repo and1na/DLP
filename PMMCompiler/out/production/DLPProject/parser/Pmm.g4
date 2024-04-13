@@ -73,7 +73,8 @@ expression returns [Expression ast]:  INT_CONSTANT {$ast = new IntLiteral($INT_C
             ;
 
 statement returns [List<Statement> ast = new ArrayList<Statement>()]
-    locals [List<Statement> elseBodyL = new ArrayList<Statement>()]:
+    locals [List<Statement> elseBodyL = new ArrayList<Statement>(),
+            boolean hasElseBody = false]:
             ret='return' expression ';'
                 {$ast.add(new Return($ret.getLine(),$ret.getCharPositionInLine()+1,$expression.ast));}
           | kw='print' expressionList ';'
@@ -92,10 +93,13 @@ statement returns [List<Statement> ast = new ArrayList<Statement>()]
                {$ast.add(new Assignment($eq.getLine(),$eq.getCharPositionInLine()+1,$var.ast,$val.ast));}
           | kw='while' cond=expression ':' bd=body
                 {$ast.add(new While($kw.getLine(), $kw.getCharPositionInLine()+1, $body.ast, $cond.ast));}
-          | kw='if' cond=expression ':' ifbody=body ('else' ':' elsebody=body {$elseBodyL.addAll($elsebody.ast);})?
+          | kw='if' cond=expression ':' ifbody=body ('else' ':' elsebody=body { $hasElseBody = true;
+                                                                                $elseBodyL.addAll($elsebody.ast);
+                                                                                }
+                                                    )?
                 {
                     $ast.add(new If_Else($kw.getLine(), $kw.getCharPositionInLine()+1,$ifbody.ast,
-                        $elseBodyL,$cond.ast));
+                        $elseBodyL,$cond.ast, $hasElseBody));
                 }
           | funcInv=functioninvocation ';'
                 {$ast.add($funcInv.ast);}

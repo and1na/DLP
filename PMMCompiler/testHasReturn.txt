@@ -1,25 +1,28 @@
 a:int;
 
-def withoutReturn():int{
 
-    b:double;
-
-    b = 1.0;
-
-
-}
 
 def withReturn():double{
 
     b:double;
     b = 1.0;
-
     while(b < 10.0):{
         if(b == 5.0):{
+        }else: {
         }
     }
+
+    return b;
 }
 
 
 def main():{
 }
+
+
+
+
+//problema: si tengo un if_else y hay return fuera, funciona bien. Pero podria tener un if(sin else), que tuviese return
+//y que fuera de el no haya return. En ese caso, computaria como que la funcion tiene return pero el flujo de ejecucion
+//podria no entrar en el if, dejando a la funcion sin retorno. Por lo tanto, si solo hay un if ( sin else), deberia de haber
+//fuera un return.
