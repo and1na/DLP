@@ -8,7 +8,7 @@ import ast.type.struct.Struct;
 import ast.type.struct.StructField;
 import visitor.AbstractVisitor;
 
-public class OffsetVisitor  extends AbstractVisitor<Void,Void> {
+public class OffSetVisitor extends AbstractVisitor<Void,Void> {
 
     //GLOBAL VARIABLES
     public Void visit(Program node, Void param){

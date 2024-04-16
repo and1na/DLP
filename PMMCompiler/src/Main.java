@@ -1,23 +1,24 @@
-import codegenerator.OffsetVisitor;
+import codegenerator.CodeGenerator;
+import codegenerator.ExecuteCGVisitor;
+import codegenerator.OffSetVisitor;
 import org.antlr.v4.runtime.*;
-import introspector.model.IntrospectorModel;
-
 import ast.node.ASTNode;
 import errorhandler.ErrorHandler;
-import introspector.view.IntrospectorView;
 import parser.*;
 import semantic.IdentificationVisitor;
 import semantic.TypeCheckingVisitor;
+import introspector.model.IntrospectorModel;
+import introspector.view.IntrospectorView;
 
 public class Main {
 	
 	public static void main(String... args) throws Exception {
-		   if (args.length<1) {
-		        System.err.println("Please, pass me the input file.");
-		        return;
-		    }
-		   		 			
-		 // create a lexer that feeds off of input CharStream
+		if (args.length<2) {
+			System.err.println("Please, pass me the input and output files.");
+			return;
+		}
+
+		// create a lexer that feeds off of input CharStream
 		CharStream input = CharStreams.fromFileName(args[0]);
 		PmmLexer lexer = new PmmLexer(input);
 
@@ -36,9 +37,10 @@ public class Main {
 		}
 		else{
 			// * The AST is shown
-			ast.accept(new OffsetVisitor(),null);
-			IntrospectorModel model=new IntrospectorModel("Program", ast);
-			new IntrospectorView("Introspector", model);
+			ast.accept(new OffSetVisitor(),null);
+			ast.accept(new ExecuteCGVisitor(new CodeGenerator(args[1], args[0])), null);
+			//IntrospectorModel model=new IntrospectorModel("Program", ast);
+			//new IntrospectorView("Introspector", model);
 		}
 	}
 }

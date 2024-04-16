@@ -1,6 +1,5 @@
 package semantic;
 
-import ast.Program;
 import ast.definition.Definition;
 import ast.definition.FunctionDefinition;
 import ast.definition.VarDefinition;

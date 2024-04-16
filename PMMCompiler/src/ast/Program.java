@@ -1,6 +1,5 @@
 package ast;
 
-import ast.definition.Definition;
 import ast.definition.FunctionDefinition;
 import ast.definition.VarDefinition;
 import ast.node.ASTNode;

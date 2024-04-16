@@ -178,12 +178,18 @@ public abstract class AbstractType extends AbstractASTNode implements Type{
     public boolean isBuiltInType() {
         return false;
     }
-
     /**
      * This util method is used to get the number of bytes of a type
      * @return int
      */
     public int numberOfBytes() {
+        throw new IllegalStateException("This method should not be called");
+    }
+    /**
+     * This util method is used to get the suffix of a type
+     * @return String
+     */
+    public String suffix() {
         throw new IllegalStateException("This method should not be called");
     }
 }
