@@ -5,6 +5,8 @@ import ast.definition.VarDefinition;
 import ast.expression.Variable;
 import ast.type.IntType;
 
+ //This visitor is in charge of generating the code for getting the address of L-Values
+
 public class AddressCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>{
     /*
      * NOT IMPLEMENT
@@ -32,4 +34,8 @@ public class AddressCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>
         }
         return null;
     }
+
+    //FIELD ACCESS
+
+    //INDEXING
 }

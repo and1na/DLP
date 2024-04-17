@@ -8,6 +8,8 @@ import ast.statement.Input;
 import ast.statement.Print;
 import ast.type.Function;
 
+//This visitor is in charge of generating the code for the execution of programs (definitions and statements)
+
 public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>{
 
     private final AddressCGVisitor addressVisitor;
@@ -23,7 +25,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>
 
     /**
      * NOT IMPLEMENT
-     * if
+3     * if
      * while
      * functioninvocation
      * return
@@ -48,7 +50,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>
         cg.label(node.getName());
         //Params comment
         cg.comment("Params");
-        node.getType().accept(this, null);
+        ((Function)node.getType()).getParameters().forEach(p -> p.accept(this,node);
         //Locals comment
         cg.comment("Locals");
         node.getBodyVarDefinitions().forEach(vDef -> vDef.accept(this,node));
