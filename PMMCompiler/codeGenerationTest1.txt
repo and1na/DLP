@@ -1,0 +1,7 @@
+def main () :{
+    var1:int;
+    var2:double;
+    var1 = 2;
+    var2 = var1;
+    print var2;
+}

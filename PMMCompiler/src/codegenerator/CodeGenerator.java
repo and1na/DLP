@@ -27,7 +27,7 @@ public class CodeGenerator {
      * @param line The current line number
      */
     public void lineComment(int line) {
-        writer.println("#line " + line);
+        writer.println("\n#line " + line + "\n");
     }
 
     /**
@@ -35,14 +35,14 @@ public class CodeGenerator {
      * @param text The text to be commented
      */
     public void comment(String text) {
-        writer.println("' ** " + text);
+        writer.println("\t' ** " + text);
     }
 
     /**
      * Generates a new label
      */
     public void label(String label) {
-        writer.println( label +  ":");
+        writer.println( " " + label +  ":");
     }
 
     /**
@@ -50,7 +50,7 @@ public class CodeGenerator {
      * @param charConstant The char constant to be pushed
      */
     public void push(char charConstant) {
-        this.writer.println("pushb" + charConstant);
+        this.writer.println("\tpushb\t" + charConstant);
         this.writer.flush();
     }
 
@@ -59,7 +59,7 @@ public class CodeGenerator {
      * @param intConstant The int constant to be pushed
      */
     public void push(int intConstant) {
-        this.writer.println("pushi " + intConstant);
+        this.writer.println("\tpushi\t" + intConstant);
         this.writer.flush();
     }
 
@@ -68,7 +68,7 @@ public class CodeGenerator {
      * @param floatConstant The double constant to be pushed
      */
     public void push(double floatConstant) {
-        this.writer.println("pushf " + floatConstant);
+        this.writer.println("\tpushf\t" + floatConstant);
         this.writer.flush();
     }
 
@@ -77,7 +77,7 @@ public class CodeGenerator {
      * @param address The address to be pushed
      */
     public void pushA(int address) {
-        this.writer.println("pusha " + address);
+        this.writer.println("\tpusha\t" + address);
         this.writer.flush();
     }
 
@@ -85,7 +85,7 @@ public class CodeGenerator {
      * Pushes the base pointer onto the stack
      */
     public void pushBP() {
-        this.writer.println("push bp");
+        this.writer.println("\tpush\tbp");
         this.writer.flush();
     }
 
@@ -94,7 +94,7 @@ public class CodeGenerator {
      * @param type The type of the value to be loaded
      */
     public void load(Type type){
-        this.writer.println("load" + type.suffix());
+        this.writer.println("\tload" + type.suffix());
         this.writer.flush();
     }
 
@@ -103,7 +103,7 @@ public class CodeGenerator {
      * @param type The type of the value to be stored
      */
     public void store(Type type) {
-        this.writer.println("store" + type.suffix());
+        this.writer.println("\tstore" + type.suffix());
         this.writer.flush();
     }
 
@@ -112,7 +112,7 @@ public class CodeGenerator {
      * @param type The type of the value to be popped
      */
     public void pop(Type type) {
-        this.writer.println("pop" + type.suffix());
+        this.writer.println("\tpop" + type.suffix());
         this.writer.flush();
     }
 
@@ -121,7 +121,7 @@ public class CodeGenerator {
      * @param type The type of the value to be duplicated
      */
     public void dup(Type type) {
-        this.writer.println("dup" + type.suffix());
+        this.writer.println("\tdup" + type.suffix());
         this.writer.flush();
     }
 
@@ -132,15 +132,15 @@ public class CodeGenerator {
      */
     public void arithmetic(Type type, String operator) {
         if(operator.equals("+")) {
-            this.writer.println("add" + type.suffix());
+            this.writer.println("\tadd" + type.suffix());
         } else if(operator.equals("-")) {
-            this.writer.println("sub" + type.suffix());
+            this.writer.println("\tsub" + type.suffix());
         } else if(operator.equals("*")) {
-            this.writer.println("mul" + type.suffix());
+            this.writer.println("\tmul" + type.suffix());
         } else if(operator.equals("/")) {
-            this.writer.println("div" + type.suffix());
+            this.writer.println("\tdiv" + type.suffix());
         } else if(operator.equals("%")) {
-            this.writer.println("mod" + type.suffix());
+            this.writer.println("\tmod" + type.suffix());
         }
         this.writer.flush();
     }
@@ -152,17 +152,17 @@ public class CodeGenerator {
      */
     public void comparison(Type type, String operator) {
         if (operator.equals(">")) {
-            this.writer.println("gt" + type.suffix());
+            this.writer.println("\tgt" + type.suffix());
         } else if (operator.equals("<")) {
-            this.writer.println("lt" + type.suffix());
+            this.writer.println("\tlt" + type.suffix());
         } else if (operator.equals(">=")) {
-            this.writer.println("ge" + type.suffix());
+            this.writer.println("\tge" + type.suffix());
         } else if (operator.equals("<=")) {
-            this.writer.println("le" + type.suffix());
+            this.writer.println("\tle" + type.suffix());
         } else if (operator.equals("==")) {
-            this.writer.println("eq" + type.suffix());
+            this.writer.println("\teq" + type.suffix());
         } else if (operator.equals("!=")) {
-            this.writer.println("ne" + type.suffix());
+            this.writer.println("\tne" + type.suffix());
         }
         this.writer.flush();
     }
@@ -173,11 +173,11 @@ public class CodeGenerator {
      */
     public void logical(String operator) {
         if (operator.equals("&&")) {
-            this.writer.println("and");
+            this.writer.println("\tand");
         } else if (operator.equals("||")) {
-            this.writer.println("or");
+            this.writer.println("\tor");
         } else if (operator.equals("!")) {
-            this.writer.println("not");
+            this.writer.println("\tnot");
         }
         this.writer.flush();
     }
@@ -187,7 +187,7 @@ public class CodeGenerator {
      * @param type The type of the value to be read
      */
     public void in(Type type) {
-        this.writer.println("in" + type.suffix());
+        this.writer.println("\tin" + type.suffix());
         this.writer.flush();
     }
 
@@ -196,7 +196,7 @@ public class CodeGenerator {
      * @param type The type of the value to be written
      */
     public void out(Type type) {
-        this.writer.println("out" + type.suffix());
+        this.writer.println("\tout" + type.suffix());
         this.writer.flush();
     }
 
@@ -206,7 +206,10 @@ public class CodeGenerator {
      * @param target The type to convert the value to
      */
     public void convert(Type source, Type target) {
-        this.writer.println(source.suffix() + "2" + target.suffix());
+        if(source.suffix().equals(target.suffix())) {
+            return;
+        }
+        this.writer.println("\t" + source.suffix() + "2" + target.suffix());
         this.writer.flush();
     }
 
@@ -215,7 +218,7 @@ public class CodeGenerator {
      * @param label The label to jump to
      */
     public void jmp(int label) {
-        this.writer.println("jmp " + label);
+        this.writer.println("\tjmp " + label);
         this.writer.flush();
     }
 
@@ -224,7 +227,7 @@ public class CodeGenerator {
      * @param label The label to jump to
      */
     public void jz(int label) {
-        this.writer.println("jz " + label);
+        this.writer.println("\tjz " + label);
         this.writer.flush();
     }
 
@@ -233,7 +236,7 @@ public class CodeGenerator {
      * @param label The label to jump to
      */
     public void jnz(int label) {
-        this.writer.println("jnz " + label);
+        this.writer.println("\tjnz " + label);
         this.writer.flush();
     }
 
@@ -243,7 +246,7 @@ public class CodeGenerator {
      */
     public void call(String functionName) {
         comment("Call to function " + functionName);
-        this.writer.println("call " + functionName);
+        this.writer.println("\tcall " + functionName);
         this.writer.flush();
     }
 
@@ -252,7 +255,7 @@ public class CodeGenerator {
      * @param bytes The number of bytes to allocate
      */
     public void enter(int bytes) {
-        this.writer.println("enter " + bytes);
+        this.writer.println("\tenter " + bytes);
         this.writer.flush();
     }
 
@@ -263,7 +266,7 @@ public class CodeGenerator {
      * @param paramsBytes The number of bytes used by parameters
      */
     public void ret(int returnedBytes, int localsBytes, int paramsBytes) {
-        this.writer.println("ret " + returnedBytes + ", " + localsBytes + ", " + paramsBytes);
+        this.writer.println("\tret " + returnedBytes + ", " + localsBytes + ", " + paramsBytes);
         this.writer.flush();
     }
 
@@ -271,7 +274,7 @@ public class CodeGenerator {
      * Halts the execution of the program
      */
     public void halt() {
-        this.writer.println("halt");
+        this.writer.println("\thalt");
         this.writer.flush();
     }
 }

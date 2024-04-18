@@ -8,8 +8,10 @@ public class Logical extends AbstractExpression  {
     private Expression rightExpression;
     private String operator;
 
+
+
     public Logical(int line, int column, Expression leftExpression, Expression rightExpression,
-                      String operator) {
+                   String operator) {
         super(line, column);
         this.leftExpression = leftExpression;
         this.rightExpression = rightExpression;
@@ -28,6 +30,10 @@ public class Logical extends AbstractExpression  {
 
     public Expression getRightExpression() {
         return rightExpression;
+    }
+
+    public String getOperator() {
+        return operator;
     }
 
 }

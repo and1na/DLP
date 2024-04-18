@@ -1,0 +1,45 @@
+#source "codeGenerationTest1.txt"
+	' ** Call to function main
+	call main
+	halt
+
+#line 1
+
+ main:
+	' ** Params
+	' ** Locals
+	' ** Int var1(offset -2)
+	' ** Double var2(offset -6)
+	enter 6
+
+#line 4
+
+	' ** Assignment
+	push	bp
+	pushi	-2
+	addi
+	pushi	2
+	storei
+
+#line 5
+
+	' ** Assignment
+	push	bp
+	pushi	-6
+	addi
+	push	bp
+	pushi	-2
+	addi
+	loadi
+	i2f
+	storef
+
+#line 6
+
+	' ** Print
+	push	bp
+	pushi	-6
+	addi
+	loadf
+	outf
+	ret 0, 6, 0

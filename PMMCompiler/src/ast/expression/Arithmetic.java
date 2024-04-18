@@ -29,5 +29,9 @@ public class Arithmetic extends AbstractExpression  {
     public Expression getRightExpression() {
         return rightExpression;
     }
+
+    public String getOperator() {
+        return operator;
+    }
 }
 

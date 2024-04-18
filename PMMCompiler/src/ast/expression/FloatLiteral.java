@@ -4,6 +4,7 @@ import visitor.Visitor;
 
 public class FloatLiteral extends AbstractExpression {
 
+
     private double value;
 
     public FloatLiteral(int line, int column, double value) {
@@ -15,4 +16,9 @@ public class FloatLiteral extends AbstractExpression {
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
         return v.visit(this,param);
     }
+
+    public double getValue() {
+        return value;
+    }
+
 }

@@ -16,7 +16,7 @@ public class IntType extends AbstractType {
     }
     @Override
     public Type arithmetic(Type other, ASTNode ast) {
-        if(other instanceof IntType) return this;
+        if(other instanceof IntType || other instanceof CharType) return this;
 
         return super.arithmetic(other, ast);
     }
@@ -38,7 +38,7 @@ public class IntType extends AbstractType {
     }
     @Override
     public Type canBeCasted(Type other, ASTNode ast) {
-        if(other.isBuiltInType()) return this;
+        if(other.isBuiltInType()) return other;
 
         return super.canBeCasted(other, ast);
     }

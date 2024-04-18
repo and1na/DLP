@@ -5,6 +5,8 @@ import visitor.Visitor;
 
 public class ArithmeticComparison extends AbstractExpression  {
 
+
+
     private String operator;
     private Expression leftExpression;
     private Expression rightExpression;
@@ -21,7 +23,9 @@ public class ArithmeticComparison extends AbstractExpression  {
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
         return v.visit(this,param);
     }
-
+    public String getOperator() {
+        return operator;
+    }
 
     public Expression getLeftExpression() {
         return leftExpression;

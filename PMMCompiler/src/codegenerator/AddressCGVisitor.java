@@ -8,11 +8,7 @@ import ast.type.IntType;
  //This visitor is in charge of generating the code for getting the address of L-Values
 
 public class AddressCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>{
-    /*
-     * NOT IMPLEMENT
-     * fieldaccess
-     * indexing
-     */
+
 
     private ValueCGVisitor valueVisitor;
 

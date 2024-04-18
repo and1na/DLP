@@ -32,8 +32,10 @@ public class OffSetVisitor extends AbstractVisitor<Void,Void> {
     public Void visit(FunctionDefinition node, Void param){
         int offset = 0;
         for(VarDefinition var : node.getBodyVarDefinitions()) {
-            var.setOffset(offset);
+            //offset is computed first, opposite to global variables, because the offset is not 0 initially,
+            //we start from BP and go up in the stack (negative offset)
             offset -= var.getType().numberOfBytes();
+            var.setOffset(offset);
             var.getType().accept(this, null);
         }
         node.getType().accept(this, null);

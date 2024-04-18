@@ -37,7 +37,7 @@ public class DoubleType extends AbstractType {
     }
     @Override
     public Type canBeCasted(Type other, ASTNode ast) {
-        if(other.isBuiltInType()) return this;
+        if(other.isBuiltInType()) return other;
 
         return super.canBeCasted(other, ast);
     }

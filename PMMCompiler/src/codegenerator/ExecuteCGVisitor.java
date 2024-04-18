@@ -41,7 +41,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>
         return null;
     }
 
-    //VISIT FOR FUNCTIONDEFINITION
+    //VISIT FOR FUNCTION DEFINITION
     @Override
     public Void visit(FunctionDefinition node, FunctionDefinition param) {
         //Line Comment
@@ -50,7 +50,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>
         cg.label(node.getName());
         //Params comment
         cg.comment("Params");
-        ((Function)node.getType()).getParameters().forEach(p -> p.accept(this,node);
+        ((Function)node.getType()).getParameters().forEach(p -> p.accept(this,node));
         //Locals comment
         cg.comment("Locals");
         node.getBodyVarDefinitions().forEach(vDef -> vDef.accept(this,node));
@@ -81,6 +81,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>
         int bytesReturn = ((Function) node.getType()).getReturnType().numberOfBytes();
 
         //Statements execution
+        //From this moment on, the funcDef is passed down  through the tree, we'll need it in the return statement
         node.getStatements().forEach(statement -> statement.accept(this,node));
 
         //Add ret instruction if no return statement is found (void returnType = 0)
