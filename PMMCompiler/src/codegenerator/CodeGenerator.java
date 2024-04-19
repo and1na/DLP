@@ -54,21 +54,14 @@ public class CodeGenerator {
         this.writer.flush();
     }
 
-    /**
-     * Pushes an int constant onto the stack
-     * @param intConstant The int constant to be pushed
-     */
-    public void push(int intConstant) {
-        this.writer.println("\tpushi\t" + intConstant);
-        this.writer.flush();
-    }
 
     /**
-     * Pushes a double constant onto the stack
-     * @param floatConstant The double constant to be pushed
+     * Pushes an int constant onto the stack
+     * @param type type of the constant
+     * @param value value of the constant
      */
-    public void push(double floatConstant) {
-        this.writer.println("\tpushf\t" + floatConstant);
+    public void push(Type type, Object value) {
+        this.writer.println("\tpush" + type.suffix() + "\t"+ value);
         this.writer.flush();
     }
 

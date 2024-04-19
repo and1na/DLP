@@ -50,17 +50,17 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void> {
     }
 
     public Void visit(CharLiteral node, FunctionDefinition param) {
-        cg.push(node.getValue());
+        cg.push(node.getType(), node.getValue());
         return null;
     }
 
     public Void visit(FloatLiteral node, FunctionDefinition param) {
-        cg.push(node.getValue());
+        cg.push(node.getType(),node.getValue());
         return null;
     }
 
     public Void visit(IntLiteral node, FunctionDefinition param) {
-        cg.push(node.getValue());
+        cg.push(node.getType(),node.getValue());
         return null;
     }
 
@@ -80,10 +80,11 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void> {
     }
 
     public Void visit(UnaryMinus node, FunctionDefinition param) {
+        IntType type = new IntType(0,0);
         node.getExpression().accept(this, param); // Push the value of the expression
         cg.convert(node.getType(), node.getExpression().getType());
-        cg.push(-1); // Push -1
-        cg.convert(new IntType(0,0), node.getType()); // Convert -1 to the type of the expression
+        cg.push(type,-1); // Push -1
+        cg.convert(type, node.getType()); // Convert -1 to the type of the expression
         cg.arithmetic(node.getType(), "*"); // Multiply the value of the expression by -1
         return null;
     }

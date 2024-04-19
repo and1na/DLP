@@ -1,7 +1,6 @@
-varScope0 : int;
-
 def main () :{
     varScope1 : int;
-    if 1 :{
-    }
+    varc : char;
+    varc = 'e';
+    print 'p',varc,'n',varc;
 }

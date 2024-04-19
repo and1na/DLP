@@ -4,8 +4,7 @@ import visitor.Visitor;
 
 public class CharLiteral extends AbstractExpression {
 
-
-    private char value;
+    private int value;
 
     public CharLiteral(int line, int column, char value) {
         super(line, column);
@@ -17,8 +16,7 @@ public class CharLiteral extends AbstractExpression {
         return v.visit(this,param);
     }
 
-
-    public char getValue() {
+    public int getValue() {
         return value;
     }
 }

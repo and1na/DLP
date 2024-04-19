@@ -25,7 +25,7 @@ public class AddressCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>
             cg.pushA(((VarDefinition) node.getDefinition()).getOffset());
         }else{
             cg.pushBP();
-            cg.push(((VarDefinition) node.getDefinition()).getOffset());
+            cg.push(new IntType(0,0),((VarDefinition) node.getDefinition()).getOffset());
             cg.arithmetic(new IntType(0,0), "+");
         }
         return null;
