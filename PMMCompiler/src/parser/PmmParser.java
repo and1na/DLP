@@ -1,4 +1,4 @@
-// Generated from C:/Users/danie/Documents/GitHub/DLP/PMMCompiler/src/parser/Pmm.g4 by ANTLR 4.13.1
+// Generated from /home/nof4c3/Documents/uni/DLP/PMMCompiler/src/parser/Pmm.g4 by ANTLR 4.13.1
 package parser;
 
     import ast.expression.*;
@@ -803,7 +803,7 @@ public class PmmParser extends Parser {
 					match(T__4);
 					setState(176);
 					((StatementContext)_localctx).elsebody = body();
-					 ((StatementContext)_localctx).hasElseBody =  true;
+
 					                                                                                _localctx.elseBodyL.addAll(((StatementContext)_localctx).elsebody.ast);
 					                                                                                
 					}
@@ -811,7 +811,7 @@ public class PmmParser extends Parser {
 				}
 
 				                    _localctx.ast.add(new If_Else(((StatementContext)_localctx).kw.getLine(), ((StatementContext)_localctx).kw.getCharPositionInLine()+1,((StatementContext)_localctx).ifbody.ast,
-				                        _localctx.elseBodyL,((StatementContext)_localctx).cond.ast, _localctx.hasElseBody));
+				                        _localctx.elseBodyL,((StatementContext)_localctx).cond.ast));
 				                
 				}
 				break;

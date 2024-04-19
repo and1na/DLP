@@ -1,4 +1,1 @@
 //Check if passing param FuncDef to Val/AddressVisitor is necessary
-//If_else and while return change to false
-//Check if_else and while syntax if:{}
-//Check if_else/while/... scope managing is correct

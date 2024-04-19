@@ -11,38 +11,15 @@ public class If_Else extends AbstractStatement{
     private List<Statement> ifBody;
     private List<Statement> elseBody;
     private Expression conditionalExp;
-    private boolean hasElseBody;
 
 
-    public If_Else(int line, int column, List<Statement> ifBody, List<Statement> elseBody, Expression conditionalExp,
-                   boolean hasElseBody) {
+    public If_Else(int line, int column, List<Statement> ifBody, List<Statement> elseBody, Expression conditionalExp) {
         super(line, column);
         this.ifBody = ifBody;
         this.elseBody = elseBody;
         this.conditionalExp = conditionalExp;
-        this.hasElseBody = hasElseBody;
-        this.hasReturn = checkHasReturn();
+        this.hasReturn = false;
     }
-
-    private boolean checkHasReturn() {
-
-        if(hasElseBody && elseBody.size() == 0) return false;
-
-        boolean ifBodyHasReturn = false;
-        boolean elseBodyHasReturn = false;
-
-        for (Statement statement : ifBody) {
-            if (statement.hasReturn()) ifBodyHasReturn = true;
-        }
-
-        for (Statement statement : elseBody) {
-            if (statement.hasReturn()) elseBodyHasReturn = true;
-        }
-
-        return (elseBody.size() == 0) ?  ifBodyHasReturn : ifBodyHasReturn && elseBodyHasReturn  ;
-    }
-
-
 
     @Override
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {

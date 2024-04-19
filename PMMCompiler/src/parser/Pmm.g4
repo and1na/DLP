@@ -93,13 +93,13 @@ statement returns [List<Statement> ast = new ArrayList<Statement>()]
                {$ast.add(new Assignment($eq.getLine(),$eq.getCharPositionInLine()+1,$var.ast,$val.ast));}
           | kw='while' cond=expression ':' bd=body
                 {$ast.add(new While($kw.getLine(), $kw.getCharPositionInLine()+1, $body.ast, $cond.ast));}
-          | kw='if' cond=expression ':' ifbody=body ('else' ':' elsebody=body { $hasElseBody = true;
+          | kw='if' cond=expression ':' ifbody=body ('else' ':' elsebody=body {
                                                                                 $elseBodyL.addAll($elsebody.ast);
                                                                                 }
                                                     )?
                 {
                     $ast.add(new If_Else($kw.getLine(), $kw.getCharPositionInLine()+1,$ifbody.ast,
-                        $elseBodyL,$cond.ast, $hasElseBody));
+                        $elseBodyL,$cond.ast));
                 }
           | funcInv=functioninvocation ';'
                 {$ast.add($funcInv.ast);}
