@@ -9,6 +9,8 @@ public class CodeGenerator {
 
     private PrintWriter writer;
 
+    private int labelNumber = 0;
+
     public CodeGenerator(String in, String out) throws FileNotFoundException {
         this.writer = new PrintWriter(out);
         sourceFileComment(in);
@@ -43,6 +45,14 @@ public class CodeGenerator {
      */
     public void label(String label) {
         writer.println( " " + label +  ":");
+    }
+
+    /**
+     * Generates a new label
+     */
+    public String getLabel() {
+        labelNumber++;
+        return" label " + labelNumber +  ":";
     }
 
     /**
@@ -210,7 +220,7 @@ public class CodeGenerator {
      * Unconditionally jumps to a label
      * @param label The label to jump to
      */
-    public void jmp(int label) {
+    public void jmp(String label) {
         this.writer.println("\tjmp " + label);
         this.writer.flush();
     }
@@ -219,7 +229,7 @@ public class CodeGenerator {
      * Jumps to a label if the top value on the stack is zero
      * @param label The label to jump to
      */
-    public void jz(int label) {
+    public void jz(String label) {
         this.writer.println("\tjz " + label);
         this.writer.flush();
     }
@@ -228,7 +238,7 @@ public class CodeGenerator {
      * Jumps to a label if the top value on the stack is not zero
      * @param label The label to jump to
      */
-    public void jnz(int label) {
+    public void jnz(String label) {
         this.writer.println("\tjnz " + label);
         this.writer.flush();
     }
@@ -240,6 +250,11 @@ public class CodeGenerator {
     public void call(String functionName) {
         comment("Call to function " + functionName);
         this.writer.println("\tcall " + functionName);
+        this.writer.flush();
+    }
+
+    public void printLabel(String label){
+        this.writer.println(label);
         this.writer.flush();
     }
 

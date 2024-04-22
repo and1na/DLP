@@ -3,9 +3,7 @@ package codegenerator;
 import ast.Program;
 import ast.definition.FunctionDefinition;
 import ast.definition.VarDefinition;
-import ast.statement.Assignment;
-import ast.statement.Input;
-import ast.statement.Print;
+import ast.statement.*;
 import ast.type.Function;
 
 //This visitor is in charge of generating the code for the execution of programs (definitions and statements)
@@ -23,13 +21,6 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>
         valueVisitor.setAddressVisitor(addressVisitor);
     }
 
-    /**
-     * NOT IMPLEMENT
-3     * if
-     * while
-     * functioninvocation
-     * return
-     */
 
     //VISIT FOR PROGRAM
     @Override
@@ -136,6 +127,51 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>
         node.getInputExpression().accept(addressVisitor, param);
         cg.in(node.getInputExpression().getType());
         cg.store(node.getInputExpression().getType());
+        return null;
+    }
+
+    //VISIT FOR IF_ELSE
+    public Void visit(If_Else node, FunctionDefinition param) {
+
+        /*
+
+              execute[[IfElse: statement1 -> expression statement2* statement3*]]() =
+                    int elseBody = cg.getLabel();
+                    int end = cg.getLabel();
+                    value[[expression]]()
+                    <jz> elseBody
+                    statement2*.forEach(stmnt -> execute[[stmnt]])
+                    <jmp> end
+                    <label> elseBody <:>
+                    statement3*.forEach(stmnt -> execute[[stmnt]])
+                    <label> end <:>
+
+         */
+        String elseBody = cg.getLabel();
+        String end = cg.getLabel();
+
+        node.getConditionalExp().accept(valueVisitor,param);
+        cg.jz(elseBody);
+        node.getIfBody().forEach(stmnt -> stmnt.accept(this,param));
+        cg.jmp(end);
+
+        cg.printLabel(elseBody);
+        node.getElseBody().forEach(stmnt -> stmnt.accept(this,param));
+        cg.printLabel(end);
+        return null;
+    }
+
+    //VISIT FOR WHILE
+    public Void visit(While node, FunctionDefinition param) {
+
+        String condition = cg.getLabel();
+        String end = cg.getLabel();
+        cg.printLabel(condition);
+        node.getConditionalExp().accept(valueVisitor,param);
+        cg.jz(end);
+        node.getWhileBody().forEach(stmnt -> stmnt.accept(this,param));
+        cg.jmp(condition);
+        cg.printLabel(end);
         return null;
     }
 }

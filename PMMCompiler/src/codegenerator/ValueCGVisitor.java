@@ -94,4 +94,41 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void> {
         cg.load(node.getType());
         return null;
     }
+
+
+    public Void visit(ArrayAccess node, FunctionDefinition param) {
+
+        /*
+         * value[ ArrayAccess: exp1 -> exp2 exp3]():
+         *      address[[exp1]]
+         *      load exp1.type.suffix()
+         */
+
+        node.accept(addressVisitor, param);
+        cg.load(node.getType());
+        return null;
+    }
+
+    public Void visit( StructAccess node, FunctionDefinition param) {
+
+
+        /*
+
+            value [[ FieldAccess: exp1 -> exp2 id]]:
+                address[[exp1]]
+                pushi exp2.type.getOffset(id)
+                addi
+                load id.type.suffix()
+
+
+         */
+
+        node.accept(addressVisitor, param);
+        cg.load(node.getType());
+        return null;
+    }
+
+
+
+
 }

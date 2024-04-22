@@ -43,6 +43,13 @@ public class Struct extends AbstractType {
         return bytes;
     }
 
+    public StructField getField(String id) {
+        for (StructField field : fields) {
+            if (field.getName().equals(id)) return field;
+        }
+        return null;
+    }
+
     public String toString() {
         return "Struct";
     }

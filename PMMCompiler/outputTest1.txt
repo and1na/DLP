@@ -1,54 +1,21 @@
 #source "codeGenerationTest1.txt"
-	' ** Int varScope0(offset 0)
 	' ** Call to function main
 	call main
 	halt
 
-#line 3
+#line 1
 
  main:
 	' ** Params
 	' ** Locals
 	' ** Int varScope1(offset -2)
-	' ** Char varc(offset -4)
-	enter 4
-
-#line 6
-
-	' ** Assignment
+	enter 2
+ label 1:
 	push	bp
-	pushi	-4
+	pushi	-2
 	addi
-	pushb	101
-	storeb
-
-#line 7
-
-	' ** Print
-	pushb	112
-	outb
-
-#line 7
-
-	' ** Print
-	push	bp
-	pushi	-4
-	addi
-	loadb
-	outb
-
-#line 7
-
-	' ** Print
-	pushb	110
-	outb
-
-#line 7
-
-	' ** Print
-	push	bp
-	pushi	-4
-	addi
-	loadb
-	outb
-	ret 0, 4, 0
+	loadi
+	jz  label 2:
+	jmp  label 1:
+ label 2:
+	ret 0, 2, 0

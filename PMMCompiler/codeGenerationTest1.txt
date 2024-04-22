@@ -1,6 +1,16 @@
 def main () :{
     varScope1 : int;
-    varc : char;
-    varc = 'e';
-    print 'p',varc,'n',varc;
+
+
+    while varScope1 : {
+
+
+
+
+    }
+
 }
+
+
+
+
