@@ -13,7 +13,8 @@ public class FunctionDefinition extends AbstractASTNode implements Definition{
     private Type type;
     private int scope;
     private List<VarDefinition> bodyVarDefinitions;
-    List<Statement> statements;
+    private List<Statement> statements;
+    private int bytesLocalVars;
     private boolean hasReturn;
 
     public FunctionDefinition(int line,int column, String name, Type type, List<VarDefinition> varDefs,List<Statement> statements){
@@ -62,4 +63,12 @@ public class FunctionDefinition extends AbstractASTNode implements Definition{
 
     @Override
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) { return v.visit(this,param); }
+
+    public int getBytesLocalVars() {
+        return bytesLocalVars;
+    }
+
+    public void setBytesLocalVars(int bytesLocalVars) {
+        this.bytesLocalVars = bytesLocalVars;
+    }
 }

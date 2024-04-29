@@ -3,8 +3,11 @@ package codegenerator;
 import ast.Program;
 import ast.definition.FunctionDefinition;
 import ast.definition.VarDefinition;
+import ast.expression.Expression;
+import ast.expression.FunctionInvocation;
 import ast.statement.*;
 import ast.type.Function;
+import ast.type.VoidType;
 
 //This visitor is in charge of generating the code for the execution of programs (definitions and statements)
 
@@ -71,6 +74,13 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>
 
         int bytesReturn = ((Function) node.getType()).getReturnType().numberOfBytes();
 
+
+        //Set bytes for later use in the return statement
+        node.setBytesLocalVars(bytesLocals);
+        ((Function) node.getType()).setBytesReturn(bytesReturn);
+        ((Function) node.getType()).setBytesParams(bytesParams);
+
+
         //Statements execution
         //From this moment on, the funcDef is passed down  through the tree, we'll need it in the return statement
         node.getStatements().forEach(statement -> statement.accept(this,node));
@@ -105,6 +115,8 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>
         //Address and value visitors
         node.getVar().accept(addressVisitor,param);//puts the address of the variable in the stack
         node.getValue().accept(valueVisitor,param);//puts the value of the expression in the stack
+
+
         //This conversion is necessary because we could have an int assigned to a double, for example
         cg.convert(node.getValue().getType(),node.getVar().getType());
         cg.store(node.getVar().getType());
@@ -172,6 +184,34 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>
         node.getWhileBody().forEach(stmnt -> stmnt.accept(this,param));
         cg.jmp(condition);
         cg.printLabel(end);
+        return null;
+    }
+
+
+
+    @Override
+    public Void visit(FunctionInvocation ast, FunctionDefinition param) {
+        cg.lineComment(ast.getLine());
+        ast.accept(valueVisitor, null);
+        if (!(ast.getType() instanceof VoidType)) {
+            //If something is returned (added to the stack
+            // by the valueVisitor), pop it
+            cg.pop(ast.getType());
+        }
+        return null;
+    }
+
+
+    @Override
+    public Void visit(Return ast, FunctionDefinition param) {
+
+        cg.lineComment(ast.getLine());
+        cg.comment("Ret");
+        ast.getReturnedExpression().accept(valueVisitor, null);
+        cg.ret(((Function) param.getType()).getBytesReturn(),
+                param.getBytesLocalVars(),
+                ((Function) param.getType()).getBytesParams());
+
         return null;
     }
 }

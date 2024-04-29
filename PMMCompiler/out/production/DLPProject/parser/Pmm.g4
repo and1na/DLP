@@ -14,7 +14,7 @@ grammar Pmm;
 program returns [Program ast]
     locals [List<FunctionDefinition> funcDefinitions = new ArrayList<FunctionDefinition>(),
             List<VarDefinition> globalVarDefs = new ArrayList<VarDefinition>()]:
-                        (v=varDefinition {$globalVarDefs.addAll($v.ast);})* ( f=funcDefinition {$funcDefinitions.add($f.ast);} )*
+                        (v=varDefinition {$globalVarDefs.addAll($v.ast);} | f=funcDefinition {$funcDefinitions.add($f.ast);})*
                         main EOF
                         {
                             $funcDefinitions.add($main.ast);

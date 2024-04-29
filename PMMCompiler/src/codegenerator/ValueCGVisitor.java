@@ -45,7 +45,7 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void> {
 
     public Void visit(Cast node, FunctionDefinition param) {
         node.getExpressionToCast().accept(this, param);
-        cg.convert(node.getType(),node.getExpressionToCast().getType());
+        cg.convert(node.getExpressionToCast().getType(),node.getType());
         return null;
     }
 
@@ -110,17 +110,12 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void> {
     }
 
     public Void visit( StructAccess node, FunctionDefinition param) {
-
-
         /*
-
             value [[ FieldAccess: exp1 -> exp2 id]]:
                 address[[exp1]]
                 pushi exp2.type.getOffset(id)
                 addi
                 load id.type.suffix()
-
-
          */
 
         node.accept(addressVisitor, param);
@@ -129,6 +124,16 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void> {
     }
 
 
+    @Override
+    public Void visit(FunctionInvocation ast, FunctionDefinition p) {
 
+        for (int i = 0; i < ast.getParameters().size(); i++) {
+            //stack the value of the passed parameters
+            ast.getParameters().get(i).accept(this, p);
+            cg.call(ast.getFunctionVariable().getName());
+        }
+        cg.call(ast.getFunctionVariable().getName());
+        return null;
+    }
 
 }

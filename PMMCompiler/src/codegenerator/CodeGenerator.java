@@ -40,20 +40,7 @@ public class CodeGenerator {
         writer.println("\t' ** " + text);
     }
 
-    /**
-     * Generates a new label
-     */
-    public void label(String label) {
-        writer.println( " " + label +  ":");
-    }
 
-    /**
-     * Generates a new label
-     */
-    public String getLabel() {
-        labelNumber++;
-        return" label " + labelNumber +  ":";
-    }
 
     /**
      * Pushes a char constant onto the stack
@@ -235,6 +222,7 @@ public class CodeGenerator {
     }
 
     /**
+     * TODO Check where i have to use this instruction
      * Jumps to a label if the top value on the stack is not zero
      * @param label The label to jump to
      */
@@ -254,8 +242,23 @@ public class CodeGenerator {
     }
 
     public void printLabel(String label){
-        this.writer.println(label);
+        this.writer.println(label + ":");
         this.writer.flush();
+    }
+
+    /**
+     * Generates a new label
+     */
+    public void label(String label) {
+        writer.println( " " + label +  ":");
+    }
+
+    /**
+     * Generates a new label
+     */
+    public String getLabel() {
+        labelNumber++;
+        return " label" + labelNumber;
     }
 
     /**

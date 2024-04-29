@@ -11,6 +11,11 @@ public class Function extends AbstractType {
     private final Type returnType;
     private final List<VarDefinition> parameters;
 
+
+
+    private int bytesParams;
+    private int bytesReturn;
+
     public Function(int line, int column, Type returnType, List<VarDefinition> parameters){
         super(line,column);
         this.returnType = returnType;
@@ -43,4 +48,22 @@ public class Function extends AbstractType {
     public List<VarDefinition> getParameters() {
         return parameters;
     }
+
+    public int getBytesParams() {
+        return bytesParams;
+    }
+
+    public void setBytesParams(int bytesParams) {
+        this.bytesParams = bytesParams;
+    }
+
+    public int getBytesReturn() {
+        return bytesReturn;
+    }
+
+    public void setBytesReturn(int bytesReturn) {
+        this.bytesReturn = bytesReturn;
+    }
+
+
 }

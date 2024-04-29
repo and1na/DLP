@@ -61,7 +61,7 @@ public class AddressCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>
     public Void visit(StructAccess node, FunctionDefinition param) {
         node.getExpressionToAccess().accept(this, param); //struct address
         //accesed field
-        StructField field = ((Struct) node.getType()).getField(node.getStructField());
+        StructField field = ((Struct) node.getExpressionToAccess().getType()).getField(node.getStructField());
         cg.push(new IntType(0,0), field.getOffset()); //structfield offset
         cg.arithmetic(new IntType(0,0), "+");
         return null;

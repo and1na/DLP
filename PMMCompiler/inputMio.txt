@@ -1,2 +1,3 @@
 //Check if passing param FuncDef to Val/AddressVisitor is necessary
 //checkear los converto que creo que permite mas de los que hay
+//checkear los mustpromote y eso, que no permitan promocion implicita de tipos
