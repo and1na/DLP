@@ -109,6 +109,10 @@
 	addi
 	loadi
 	storei
+
+#line 28
+
+	' ** While
  label1:
 	push	bp
 	pushi	-2
@@ -198,6 +202,10 @@
 	addi
 	pushi	0
 	storei
+
+#line 38
+
+	' ** While
  label3:
 	push	bp
 	pushi	-2
@@ -394,6 +402,10 @@
 	pusha	4
 	pushi	0
 	storei
+
+#line 59
+
+	' ** While
  label5:
 	push	bp
 	pushi	-2

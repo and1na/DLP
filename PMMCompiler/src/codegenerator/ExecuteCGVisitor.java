@@ -175,7 +175,8 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>
 
     //VISIT FOR WHILE
     public Void visit(While node, FunctionDefinition param) {
-
+        cg.lineComment(node.getLine());
+        cg.comment("While");
         String condition = cg.getLabel();
         String end = cg.getLabel();
         cg.printLabel(condition);
