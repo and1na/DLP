@@ -17,18 +17,7 @@ public class While extends AbstractStatement{
         super(line, column);
         this.whileBody = whileBody;
         this.conditionalExp = conditionalExp;
-        this.hasReturn = checkReturn();
-    }
-
-
-    private boolean checkReturn(){
-        for (Statement s : whileBody) {
-            if (s.hasReturn()) {
-                return true;
-            }
-        }
-
-        return false;
+        this.hasReturn = false;
     }
 
     public List<Statement> getWhileBody() {
