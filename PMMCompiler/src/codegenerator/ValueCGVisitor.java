@@ -130,7 +130,8 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void> {
         for (int i = 0; i < ast.getParameters().size(); i++) {
             //stack the value of the passed parameters
             ast.getParameters().get(i).accept(this, p);
-            cg.call(ast.getFunctionVariable().getName());
+            cg.call(ast.getFunctionVariable().getName()); //TODO: Review this
+    
         }
         cg.call(ast.getFunctionVariable().getName());
         return null;
