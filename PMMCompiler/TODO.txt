@@ -1,3 +1,2 @@
-//6. Checkear que el codigo generado para el input de miguel es el mismo output (+ otras comprobaciones)
 //8. UML
 

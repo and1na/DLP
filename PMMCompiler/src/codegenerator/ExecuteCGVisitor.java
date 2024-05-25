@@ -218,6 +218,8 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>
                     <label> end <:>
 
          */
+        cg.lineComment(node.getLine());
+        cg.comment("If-Else");
         String elseBody = cg.getLabel();
         String end = cg.getLabel();
 
