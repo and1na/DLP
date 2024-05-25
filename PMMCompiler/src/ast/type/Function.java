@@ -32,6 +32,11 @@ public class Function extends AbstractType {
             Type definedParamType = parameters.get(i).getType();
             Type receivedParamType = otherList.get(i);
             receivedParamType.mustPromoteTo(definedParamType, ast);
+
+            if(!definedParamType.getClass().equals(receivedParamType.getClass())){
+                return new ErrorType(ast.getLine(), ast.getColumn(),
+                        "Wrong type of parameter " + i + " in function call");
+            }
         }
         return returnType;
     }

@@ -51,7 +51,7 @@ public class DoubleType extends AbstractType {
     }
     @Override
     public String toString() {
-        return "Double";
+        return "DoubleType";
     }
     @Override
     public int numberOfBytes() {
@@ -60,5 +60,10 @@ public class DoubleType extends AbstractType {
     @Override
     public String suffix() {
         return "f";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof DoubleType;
     }
 }

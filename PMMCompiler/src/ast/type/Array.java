@@ -31,7 +31,7 @@ public class Array extends AbstractType {
     }
 
     public String toString() {
-        return "Array";
+        return "ArrayType with size: ["+ size+ "]";
     }
 
     public int numberOfBytes() {

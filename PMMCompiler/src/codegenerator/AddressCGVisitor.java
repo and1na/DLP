@@ -25,6 +25,16 @@ public class AddressCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>
     }
 
     public Void visit(Variable node, FunctionDefinition param) {
+
+//        address[[Variable: exp --> ID]]() =
+//            if (exp.definition.scope==0) {
+//                <pusha> exp.definition.offset
+//            } else {
+//                <push bp>
+//                <pushi> expression.definition.offset
+//                <addi>
+//            }
+
         if(node.getDefinition().getScope() == 0) {
             cg.pushA(((VarDefinition) node.getDefinition()).getOffset());
         }else{
@@ -35,15 +45,13 @@ public class AddressCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>
         return null;
     }
 
-    //FIELD ACCESS
 
-    //INDEXING
 
     @Override
     public Void visit(ArrayAccess node, FunctionDefinition param) {
 
         /*
-         * address[ ArrayAccess: exp1 -> exp2 exp3]():
+         * address[ ArrayAccess: exp1 --> exp2 exp3]():
          *      address[[exp2]]
          *      value[[exp3]]
          *      pushi exp1.type.numberOfBytes()
@@ -59,8 +67,15 @@ public class AddressCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>
     }
 
     public Void visit(StructAccess node, FunctionDefinition param) {
+
+//        address[[StructAccess: exp1 ---> exp2 ID]]() =
+//            address[[expression2]]
+//            <pushi> expression2.type.getField(expression1.getName()).getOffset()
+//            <addi>
+
+
         node.getExpressionToAccess().accept(this, param); //struct address
-        //accesed field
+        //accessed field
         StructField field = ((Struct) node.getExpressionToAccess().getType()).getField(node.getStructField());
         cg.push(new IntType(0,0), field.getOffset()); //structfield offset
         cg.arithmetic(new IntType(0,0), "+");

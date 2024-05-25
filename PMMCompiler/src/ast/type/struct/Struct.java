@@ -51,6 +51,12 @@ public class Struct extends AbstractType {
     }
 
     public String toString() {
-        return "Struct";
+        String fieldString = "";
+
+        for (StructField field : fields) {
+            fieldString += field.getName() + " : " + field.getOf() + ", ";
+        }
+
+        return "StructType with fields [" + fieldString + "]";
     }
 }

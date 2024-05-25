@@ -1,5 +1,8 @@
 package codegenerator;
 
+import ast.type.CharType;
+import ast.type.DoubleType;
+import ast.type.IntType;
 import ast.type.Type;
 
 import java.io.FileNotFoundException;
@@ -9,7 +12,7 @@ public class CodeGenerator {
 
     private PrintWriter writer;
 
-    private int labelNumber = 0;
+    private int labelNumber = -1;
 
     public CodeGenerator(String in, String out) throws FileNotFoundException {
         this.writer = new PrintWriter(out);
@@ -38,17 +41,6 @@ public class CodeGenerator {
      */
     public void comment(String text) {
         writer.println("\t' ** " + text);
-    }
-
-
-
-    /**
-     * Pushes a char constant onto the stack
-     * @param charConstant The char constant to be pushed
-     */
-    public void push(char charConstant) {
-        this.writer.println("\tpushb\t" + charConstant);
-        this.writer.flush();
     }
 
 
@@ -196,10 +188,32 @@ public class CodeGenerator {
      * @param target The type to convert the value to
      */
     public void convert(Type source, Type target) {
-        if(source.suffix().equals(target.suffix())) {
-            return;
+        IntType intType = new IntType(0,0);
+        CharType charType = new CharType(0,0);
+        DoubleType doubleType = new DoubleType(0,0);
+
+
+        if (source.equals(intType)) {
+            if (target.equals(charType)) {
+                this.writer.println("\ti2b");
+            } else if (target.equals(doubleType)) {
+                this.writer.println("\ti2f");
+            }
+        } else if (source.equals(doubleType)) {
+            if (target.equals(intType)) {
+                this.writer.println("\tf2i");
+            } else if (target.equals(charType)) {
+                this.writer.println("\tf2i");
+                this.writer.println("\ti2b");
+            }
+        } else if (source.equals(charType)) {
+            if (target.equals(intType)) {
+                this.writer.println("\tb2i");
+            } else if (target.equals(doubleType)) {
+                this.writer.println("\tb2i");
+                this.writer.println("\ti2f");
+            }
         }
-        this.writer.println("\t" + source.suffix() + "2" + target.suffix());
         this.writer.flush();
     }
 
@@ -222,7 +236,6 @@ public class CodeGenerator {
     }
 
     /**
-     * TODO Check where i have to use this instruction
      * Jumps to a label if the top value on the stack is not zero
      * @param label The label to jump to
      */
@@ -236,7 +249,7 @@ public class CodeGenerator {
      * @param functionName The name of the function to be called
      */
     public void call(String functionName) {
-        comment("Call to function " + functionName);
+        comment("Call to function: " + functionName);
         this.writer.println("\tcall " + functionName);
         this.writer.flush();
     }

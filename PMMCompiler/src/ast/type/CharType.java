@@ -51,7 +51,7 @@ public class CharType extends AbstractType {
     }
     @Override
     public String toString() {
-        return "Char";
+        return "CharType";
     }
     @Override
     public int numberOfBytes() {
@@ -61,4 +61,10 @@ public class CharType extends AbstractType {
     public String suffix() {
         return "b";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof CharType;
+    }
 }
+

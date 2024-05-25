@@ -1,6 +1,3 @@
-//Check if passing param FuncDef to Val/AddressVisitor is necessary
-//checkear los converto que creo que permite mas de los que hay
-//checkear los mustpromote y eso, que no permitan promocion implicita de tipos
-//checkear comentarios que esten donde deben estar
-//Checkear acceso out of bounds array
-//añadir comentarios de plantillas de codigo
+//6. Checkear que el codigo generado para el input de miguel es el mismo output (+ otras comprobaciones)
+//8. UML
+

@@ -1,7 +1,0 @@
-def main():{
-    a: char;
-    b: int;
-    c: double;
-
-    c = b + a;
-}

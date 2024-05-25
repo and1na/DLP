@@ -66,7 +66,7 @@ public class IntType extends AbstractType {
     }
     @Override
     public String toString() {
-        return "Int";
+        return "IntType";
     }
     @Override
     public int numberOfBytes() {
@@ -77,4 +77,8 @@ public class IntType extends AbstractType {
         return "i";
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof IntType;
+    }
 }
