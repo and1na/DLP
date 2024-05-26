@@ -10,10 +10,6 @@ public class ErrorHandler{
 
     private static ErrorHandler instance;
 
-    public List<ErrorType> getErrors() {
-        return errors;
-    }
-
     private List<ErrorType> errors;
 
     private ErrorHandler() {
@@ -35,6 +31,10 @@ public class ErrorHandler{
         for (ErrorType et : errors) {
             ps.println("[" + et.getLine() + ", " + et.getColumn() + "]\t" + et.getMessage());
         }
+    }
+
+    public List<ErrorType> getErrors() {
+        return errors;
     }
 
     public void addError(ErrorType et) {
