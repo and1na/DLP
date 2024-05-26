@@ -31,9 +31,9 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void> {
 //            cg.arithmetic(expression1.type, operator)
 
         node.getLeftExpression().accept(this, param);
-        cg.convert(node.getType(),node.getLeftExpression().getType());
+        cg.convert(node.getLeftExpression().getType(),node.getType());
         node.getRightExpression().accept(this, param);
-        cg.convert(node.getType(),node.getRightExpression().getType());
+        cg.convert(node.getRightExpression().getType(),node.getType());
         //Perform the operation
         cg.arithmetic(node.getType(), node.getOperator());
         return null;
@@ -48,9 +48,9 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void> {
 //            cg.comparison( exp1.type, operator)
 
         node.getLeftExpression().accept(this, param);
-        cg.convert(node.getType(),node.getLeftExpression().getType());
+        cg.convert(node.getLeftExpression().getType(),node.getType());
         node.getRightExpression().accept(this, param);
-        cg.convert(node.getType(),node.getRightExpression().getType());
+        cg.convert(node.getRightExpression().getType(),node.getType());
         //Perform the operation
         cg.comparison(node.getType(), node.getOperator());
         return null;
