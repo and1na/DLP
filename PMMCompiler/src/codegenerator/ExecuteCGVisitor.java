@@ -6,6 +6,8 @@ import ast.definition.VarDefinition;
 import ast.expression.Expression;
 import ast.expression.FunctionInvocation;
 import ast.statement.*;
+import ast.statement.sw.Case;
+import ast.statement.sw.Switch;
 import ast.type.Function;
 import ast.type.IntType;
 import ast.type.VoidType;
@@ -185,6 +187,50 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>
         cg.push(new IntType(0,0),1);
         cg.arithmetic(increment.getExpressionToIncrement().getType(),"+");
         cg.store(increment.getExpressionToIncrement().getType());
+        return null;
+    }
+
+    @Override
+    public Void visit(Switch aSwitch, FunctionDefinition param) {
+
+//        execute[[Switch: statement --> exp1 case* caseDefault ]]() =
+//            case*.forEach(c -> {
+
+//              int caseLabel = cg.getLabel();
+//              <label> caseLabel <:>
+//              value[[exp1]]()
+//              value[[c.expressionToCompare]]()
+//              <eq> exp1.type.suffix()
+//              <jz> caseLabel + 1
+//              c.statements.forEach(stmnt -> execute[[stmnt]])
+//              <jmp> end
+//            })
+
+//            int end = cg.getLabel();
+//            <label> end <:>
+//
+        String end = cg.getLabel();
+        cg.lineComment(aSwitch.getLine());
+        cg.comment("Switch");
+        aSwitch.getCases().forEach(c -> {
+            cg.lineComment(c.getLine());
+            cg.comment("Case");
+            String caseLabel = cg.getLabel();
+            cg.printLabel(caseLabel);
+            aSwitch.getExpressionToCompare().accept(valueVisitor,param);
+            c.getExpressionToCompare().accept(valueVisitor,param);
+            cg.comparison(aSwitch.getExpressionToCompare().getType(),"==");
+            cg.jz(caseLabel + 1);
+            c.getStatements().forEach(stmnt -> stmnt.accept(this,param));
+            cg.jmp(end);
+        });
+
+        String defaultCase = cg.getLabel();
+        cg.printLabel(defaultCase);
+        aSwitch.getDefaultCase().getStatements().forEach(stmnt -> stmnt.accept(this,param));
+        cg.jmp(end);
+        cg.printLabel(end);
+
         return null;
     }
 

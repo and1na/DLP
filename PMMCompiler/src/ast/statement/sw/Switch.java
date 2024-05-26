@@ -15,6 +15,10 @@ public class Switch extends AbstractStatement {
 
     public Switch(int line, int column, Expression condition, List<Case> cases, Case defaultCase) {
         super(line, column);
+        this.expressionToCompare = condition;
+        this.cases = cases;
+        this.defaultCase = defaultCase;
+
     }
 
     @Override

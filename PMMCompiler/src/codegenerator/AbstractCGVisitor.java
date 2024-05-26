@@ -5,6 +5,8 @@ import ast.definition.FunctionDefinition;
 import ast.definition.VarDefinition;
 import ast.expression.*;
 import ast.statement.*;
+import ast.statement.sw.Case;
+import ast.statement.sw.Switch;
 import ast.type.*;
 import ast.type.struct.Struct;
 import ast.type.struct.StructField;
@@ -176,4 +178,14 @@ public abstract class AbstractCGVisitor<TP,TR> implements Visitor<TP,TR> {
     public TR visit(Increment node, TP param) {
         throw new IllegalStateException("This node should not be visited in this visitor");
     }
+
+    public TR visit(Switch node, TP param) {
+        throw new IllegalStateException("This node should not be visited in this visitor");
+    }
+
+    public TR visit(Case node, TP param) {
+        throw new IllegalStateException("This node should not be visited in this visitor");
+    }
+
+
 }

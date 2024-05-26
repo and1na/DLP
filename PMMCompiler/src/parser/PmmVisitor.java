@@ -9,6 +9,7 @@ package parser;
     import ast.statement.*;
     import ast.*;
     import errorhandler.*;
+    import ast.statement.sw.*;
 
 
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
@@ -45,6 +46,24 @@ public interface PmmVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitStatement(PmmParser.StatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PmmParser#caseList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCaseList(PmmParser.CaseListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PmmParser#case}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCase(PmmParser.CaseContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PmmParser#defaultcase}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefaultcase(PmmParser.DefaultcaseContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PmmParser#body}.
 	 * @param ctx the parse tree

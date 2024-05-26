@@ -9,6 +9,7 @@ package parser;
     import ast.statement.*;
     import ast.*;
     import errorhandler.*;
+    import ast.statement.sw.*;
 
 
 import org.antlr.v4.runtime.tree.ParseTreeListener;
@@ -58,6 +59,36 @@ public interface PmmListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitStatement(PmmParser.StatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PmmParser#caseList}.
+	 * @param ctx the parse tree
+	 */
+	void enterCaseList(PmmParser.CaseListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PmmParser#caseList}.
+	 * @param ctx the parse tree
+	 */
+	void exitCaseList(PmmParser.CaseListContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PmmParser#case}.
+	 * @param ctx the parse tree
+	 */
+	void enterCase(PmmParser.CaseContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PmmParser#case}.
+	 * @param ctx the parse tree
+	 */
+	void exitCase(PmmParser.CaseContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PmmParser#defaultcase}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefaultcase(PmmParser.DefaultcaseContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PmmParser#defaultcase}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefaultcase(PmmParser.DefaultcaseContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link PmmParser#body}.
 	 * @param ctx the parse tree

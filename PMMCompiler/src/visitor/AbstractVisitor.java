@@ -194,8 +194,7 @@ public abstract class AbstractVisitor<TP,TR> implements Visitor<TP,TR> {
         node.getExpressionToCompare().accept(this,param);
         node.getCases().forEach(c -> c.accept(this,param));
         node.getDefaultCase().accept(this,param);
-        node.getExpressionToCompare().getType().asBuiltInType(node.getExpressionToCompare().getType(),
-                node.getExpressionToCompare());
+
         return null;
     }
 
@@ -203,14 +202,8 @@ public abstract class AbstractVisitor<TP,TR> implements Visitor<TP,TR> {
     public TR visit(Case node, TP param) {
         node.getExpressionToCompare().accept(this,param);
         node.getStatements().forEach(statement -> statement.accept(this,param));
-        node.getExpressionToCompare().getType().asBuiltInType(node.getExpressionToCompare().getType(),
-                node.getExpressionToCompare());
         return null;
     }
-
-
-
-
 
 
     @Override

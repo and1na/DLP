@@ -8,6 +8,7 @@ grammar Pmm;
     import ast.statement.*;
     import ast.*;
     import errorhandler.*;
+    import ast.statement.sw.*;
 
 }
 
@@ -105,9 +106,32 @@ statement returns [List<Statement> ast = new ArrayList<Statement>()]
                 {$ast.add($funcInv.ast);}
           | exp1=expression operator='++' ';'
                 {$ast.add(new Increment($operator.getLine(),$operator.getCharPositionInLine()+1,$exp1.ast));}
-          | 'switch' exp=expression ':'
+          | kw='switch' '(' exp=expression ')' ':' '{' cases=caseList caseDefault=defaultcase '}'
+                {$ast.add(new Switch($kw.getLine(),$kw.getCharPositionInLine()+1,$exp.ast,$cases.ast,$caseDefault.ast));}
           ;
 
+
+caseList returns [List<Case> ast = new ArrayList<Case>()]:
+    (c=case {$ast.add($c.ast);})+
+    ;
+
+case returns [Case ast]
+    locals [List<Statement> caseBody = new ArrayList<Statement>()]:
+        kw='case' cond=expression ':' bd=body
+            {
+                $caseBody.addAll($bd.ast);
+                $ast = new Case($kw.getLine(),$kw.getCharPositionInLine()+1, $cond.ast,$caseBody);
+            }
+        ;
+
+defaultcase returns [Case ast]
+    locals [List<Statement> caseBody = new ArrayList<Statement>()]:
+        kw='default' ':' bd=body
+            {
+                $caseBody.addAll($bd.ast);
+                $ast = new Case($kw.getLine(),$kw.getCharPositionInLine()+1, new IntLiteral(0,0,0),$caseBody);
+            }
+        ;
 
 body returns [List<Statement> ast = new ArrayList<Statement>()]:
     st=statement { $ast.addAll($st.ast); } | '{' (st2=statement { $ast.addAll($st2.ast);} )*  '}' ;

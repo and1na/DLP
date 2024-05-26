@@ -4,6 +4,7 @@ package semantic;
 import ast.definition.FunctionDefinition;
 import ast.expression.*;
 import ast.statement.*;
+import ast.statement.sw.Case;
 import ast.statement.sw.Switch;
 import ast.type.*;
 import visitor.AbstractVisitor;
@@ -191,17 +192,24 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type,Boolean> {
         return node.hasReturn();
     }
 
-public Boolean visit(Switch node, Type param){
-        node.getCondition().accept(this,param);
+    public Boolean visit(Switch node, Type param){
+        node.getExpressionToCompare().accept(this,param);
         node.getCases().forEach(c -> c.accept(this,param));
         node.getDefaultCase().accept(this,param);
-        node.getCondition().getType().logical(node);
+        node.getExpressionToCompare().getType().asBuiltInType(node.getExpressionToCompare().getType(),
+                node);
         return node.hasReturn();
     }
 
+    @Override
+    public Boolean visit(Case node, Type param) {
+        node.getExpressionToCompare().accept(this,param);
+        node.getStatements().forEach(statement -> statement.accept(this,param));
+        node.getExpressionToCompare().getType().asBuiltInType(node.getExpressionToCompare().getType(),
+                node);
+        return null;
 
-
-
+    }
 
     public Boolean visit(Print node, Type param){
         node.getExpressionToPrint().accept(this,param);

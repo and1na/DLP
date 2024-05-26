@@ -1,12 +1,23 @@
 
 
-{
-    a:char;
+def main():{
+    a:int;
+    a = 1;
 
-    a = 0;
-    a++;
-    a++;
-    a++;
-    a++;
-    print a;
+    switch (a): {
+
+        case 1: {
+            a = 'a';
+        }
+
+        case 2: {
+            a = 'b';
+        }
+
+        default: {
+            a = 'b';
+        }
+    }
+
+    print a ;
 }

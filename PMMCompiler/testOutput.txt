@@ -17,54 +17,73 @@
 	push	bp
 	pushi	-2
 	addi
-	pushi	0
-	storei
-	' ** Increment
-	push	bp
-	pushi	-2
-	addi
-	push	bp
-	pushi	-2
-	addi
-	loadi
 	pushi	1
-	addi
-	storei
-	' ** Increment
-	push	bp
-	pushi	-2
-	addi
-	push	bp
-	pushi	-2
-	addi
-	loadi
-	pushi	1
-	addi
-	storei
-	' ** Increment
-	push	bp
-	pushi	-2
-	addi
-	push	bp
-	pushi	-2
-	addi
-	loadi
-	pushi	1
-	addi
-	storei
-	' ** Increment
-	push	bp
-	pushi	-2
-	addi
-	push	bp
-	pushi	-2
-	addi
-	loadi
-	pushi	1
-	addi
 	storei
 
+#line 7
+
+	' ** Switch
+
+#line 9
+
+	' ** Case
+ label1:
+	push	bp
+	pushi	-2
+	addi
+	loadi
+	pushi	1
+	eqi
+	jz  label11
+
 #line 10
+
+	' ** Assignment
+	push	bp
+	pushi	-2
+	addi
+	pushb	97
+	b2i
+	storei
+	jmp  label0
+
+#line 13
+
+	' ** Case
+ label2:
+	push	bp
+	pushi	-2
+	addi
+	loadi
+	pushi	2
+	eqi
+	jz  label21
+
+#line 14
+
+	' ** Assignment
+	push	bp
+	pushi	-2
+	addi
+	pushb	98
+	b2i
+	storei
+	jmp  label0
+ label3:
+
+#line 18
+
+	' ** Assignment
+	push	bp
+	pushi	-2
+	addi
+	pushb	98
+	b2i
+	storei
+	jmp  label0
+ label0:
+
+#line 22
 
 	' ** Print
 	push	bp
