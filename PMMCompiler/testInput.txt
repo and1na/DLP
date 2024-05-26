@@ -1,8 +1,11 @@
+def fun(a:int):{
+    print a;
+
+}
 
 
 def main(): {
-    a : int;
-
-    a = 3.3 < 'a';
-    print a;
+    a : char;
+    a = 'a';
+    fun(a);
 }

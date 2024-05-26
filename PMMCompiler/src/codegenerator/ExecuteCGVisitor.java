@@ -165,7 +165,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>
         node.getValue().accept(valueVisitor,param);//puts the value of the expression in the stack
 
 
-        //This conversion is necessary because we could have an int assigned to a double, for example
+        //This conversion is necessary facing the implicit conversions
         cg.convert(node.getValue().getType(),node.getVar().getType());
         cg.store(node.getVar().getType());
         return null;

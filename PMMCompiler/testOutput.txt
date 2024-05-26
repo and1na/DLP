@@ -5,31 +5,45 @@
 
 #line 3
 
+ fun:
+	' ** Params
+	' ** IntType a (offset 4)
+	' ** Locals
+	enter 0
+
+#line 7
+
+	' ** Print
+	push	bp
+	pushi	4
+	addi
+	loadi
+	outi
+	ret 0, 0, 2
+
+#line 12
+
  main:
 	' ** Params
 	' ** Locals
 	' ** IntType a (offset -2)
 	enter 2
 
-#line 6
+#line 14
 
 	' ** Assignment
 	push	bp
 	pushi	-2
 	addi
-	pushf	3.3
-	f2i
-	pushb	97
-	b2i
-	lti
+	pushi	10
 	storei
 
-#line 7
+#line 15
 
-	' ** Print
 	push	bp
 	pushi	-2
 	addi
 	loadi
-	outi
+	' ** Call to function: fun
+	call fun
 	ret 0, 2, 0
