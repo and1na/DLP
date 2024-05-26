@@ -1,6 +1,6 @@
 
 
-def main(): {
+{
     a:char;
 
     a = 0;

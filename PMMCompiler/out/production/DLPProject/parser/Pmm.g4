@@ -105,6 +105,7 @@ statement returns [List<Statement> ast = new ArrayList<Statement>()]
                 {$ast.add($funcInv.ast);}
           | exp1=expression operator='++' ';'
                 {$ast.add(new Increment($operator.getLine(),$operator.getCharPositionInLine()+1,$exp1.ast));}
+          | 'switch' exp=expression ':'
           ;
 
 

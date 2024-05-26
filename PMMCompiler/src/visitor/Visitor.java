@@ -5,6 +5,8 @@ import ast.definition.FunctionDefinition;
 import ast.definition.VarDefinition;
 import ast.expression.*;
 import ast.statement.*;
+import ast.statement.sw.Case;
+import ast.statement.sw.Switch;
 import ast.type.*;
 import ast.type.struct.Struct;
 import ast.type.struct.StructField;
@@ -57,7 +59,8 @@ public interface Visitor<TP,TR> {
      TR visit(Return node, TP param);
      TR visit(While node, TP param);
      TR visit(Assignment node, TP param);
+     TR visit(Increment increment, TP param);
+     TR visit(Switch aSwitch, TP param);
 
-
- TR visit(Increment increment, TP param);
+     TR visit(Case aCase, TP param);
 }

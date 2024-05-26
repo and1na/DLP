@@ -105,7 +105,23 @@ statement returns [List<Statement> ast = new ArrayList<Statement>()]
                 {$ast.add($funcInv.ast);}
           | exp1=expression operator='++' ';'
                 {$ast.add(new Increment($operator.getLine(),$operator.getCharPositionInLine()+1,$exp1.ast));}
+          | 'switch' exp=expression ':' '{' cases=caseList caseDefault=case '}'
+                {$ast.add(new Switch($exp.getLine(),$exp.getCharPositionInLine()+1,$exp.ast,$cases.ast,$caseDefault.ast));}
           ;
+
+
+caseList returns [List<Case> ast = new ArrayList<Case>()]:
+    (c=case {$ast.add($c.ast);})+
+    ;
+
+case returns [Case ast]
+    locals [List<Statement> caseBody = new ArrayList<Statement>()]:
+        kw='case' cond=expression ':' bd=body
+            {
+                $caseBody.addAll($bd.ast);
+                $ast = new Case($kw.getLine(),$kw.getCharPositionInLine()+1, $cond.ast,$caseBody);
+            }
+        ;
 
 
 body returns [List<Statement> ast = new ArrayList<Statement>()]:

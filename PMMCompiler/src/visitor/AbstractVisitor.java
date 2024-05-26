@@ -1,11 +1,12 @@
 package visitor;
 
 import ast.Program;
-import ast.definition.Definition;
 import ast.definition.FunctionDefinition;
 import ast.definition.VarDefinition;
 import ast.expression.*;
 import ast.statement.*;
+import ast.statement.sw.Case;
+import ast.statement.sw.Switch;
 import ast.type.*;
 import ast.type.struct.Struct;
 import ast.type.struct.StructField;
@@ -187,6 +188,30 @@ public abstract class AbstractVisitor<TP,TR> implements Visitor<TP,TR> {
         node.getElseBody().forEach(statement -> statement.accept(this,param));
         return null;
     }
+
+    @Override
+    public TR visit(Switch node, TP param) {
+        node.getExpressionToCompare().accept(this,param);
+        node.getCases().forEach(c -> c.accept(this,param));
+        node.getDefaultCase().accept(this,param);
+        node.getExpressionToCompare().getType().asBuiltInType(node.getExpressionToCompare().getType(),
+                node.getExpressionToCompare());
+        return null;
+    }
+
+    @Override
+    public TR visit(Case node, TP param) {
+        node.getExpressionToCompare().accept(this,param);
+        node.getStatements().forEach(statement -> statement.accept(this,param));
+        node.getExpressionToCompare().getType().asBuiltInType(node.getExpressionToCompare().getType(),
+                node.getExpressionToCompare());
+        return null;
+    }
+
+
+
+
+
 
     @Override
     public TR visit(Input node, TP param) {
