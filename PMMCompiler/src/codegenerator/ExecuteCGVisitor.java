@@ -7,6 +7,7 @@ import ast.expression.Expression;
 import ast.expression.FunctionInvocation;
 import ast.statement.*;
 import ast.type.Function;
+import ast.type.IntType;
 import ast.type.VoidType;
 
 //This visitor is in charge of generating the code for the execution of programs (definitions and statements)
@@ -170,7 +171,24 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition,Void>
         cg.store(node.getVar().getType());
         return null;
     }
-        //VISIT FOR PRINT
+
+    @Override
+    public Void visit(Increment increment, FunctionDefinition param) {
+//        execute[[Increment: statement --> exp1 ]]() =
+//            address[[exp1]]()
+//            value[[exp1]]()
+//            <push> 1
+//            <store> expression1.type.suffix()
+        cg.comment("Increment");
+        increment.getExpressionToIncrement().accept(addressVisitor,param);
+        increment.getExpressionToIncrement().accept(valueVisitor,param);
+        cg.push(new IntType(0,0),1);
+        cg.arithmetic(increment.getExpressionToIncrement().getType(),"+");
+        cg.store(increment.getExpressionToIncrement().getType());
+        return null;
+    }
+
+    //VISIT FOR PRINT
     public Void visit(Print node, FunctionDefinition param) {
 //        execute[[Print: statement --> exp]]() =
 //            value[[exp]]()

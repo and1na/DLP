@@ -76,6 +76,10 @@ public class IntType extends AbstractType {
     public String suffix() {
         return "i";
     }
+    @Override
+    public Type increment(ASTNode ast) {
+        return this;
+    }
 
     @Override
     public boolean equals(Object obj) {

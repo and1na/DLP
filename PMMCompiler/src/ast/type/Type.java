@@ -34,4 +34,6 @@ public interface Type extends ASTNode {
     int numberOfBytes();
 
     String suffix();
+
+    Type increment(ASTNode ast);
 }

@@ -192,4 +192,8 @@ public abstract class AbstractType extends AbstractASTNode implements Type{
     public String suffix() {
         throw new IllegalStateException("This method should not be called");
     }
+
+    public Type increment(ASTNode ast) {
+        return new ErrorType(ast.getLine(), ast.getColumn(), "Cannot increment " + this);
+    }
 }

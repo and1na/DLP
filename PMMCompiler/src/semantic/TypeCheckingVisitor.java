@@ -22,6 +22,8 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type,Boolean> {
         return null;
     }
 
+
+
     @Override
     public Boolean visit(Arithmetic node, Type param) {
         node.getLeftExpression().accept(this, param);
@@ -159,6 +161,14 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type,Boolean> {
         }
         node.getInputExpression().getType().asBuiltInType(node.getInputExpression().getType(), node);
         return node.hasReturn();
+    }
+
+
+    @Override
+    public Boolean visit(Increment node, Type param) {
+        node.getExpressionToIncrement().accept(this, param);
+        node.getExpressionToIncrement().getType().increment(node);
+        return null;
     }
 
     /*

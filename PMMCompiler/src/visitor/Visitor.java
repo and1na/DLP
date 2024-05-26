@@ -59,6 +59,5 @@ public interface Visitor<TP,TR> {
      TR visit(Assignment node, TP param);
 
 
-
-
+ TR visit(Increment increment, TP param);
 }

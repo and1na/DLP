@@ -171,4 +171,9 @@ public abstract class AbstractCGVisitor<TP,TR> implements Visitor<TP,TR> {
     public TR visit(Assignment node, TP param) {
         throw new IllegalStateException("This node should not be visited in this visitor");
     }
+
+    @Override
+    public TR visit(Increment node, TP param) {
+        throw new IllegalStateException("This node should not be visited in this visitor");
+    }
 }

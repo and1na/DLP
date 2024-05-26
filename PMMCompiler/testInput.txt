@@ -1,8 +1,12 @@
 
 
 def main(): {
-    a : int;
+    a:char;
 
-    a = 3.3 < 'a';
+    a = 0;
+    a++;
+    a++;
+    a++;
+    a++;
     print a;
 }

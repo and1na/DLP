@@ -22,6 +22,11 @@ public abstract class AbstractVisitor<TP,TR> implements Visitor<TP,TR> {
         return null;
     }
 
+    public TR visit(Increment node, TP param){
+        node.getExpressionToIncrement().accept(this,param);
+        return null;
+    }
+
     @Override
     public TR visit(FunctionInvocation node, TP param) {
         node.getFunctionVariable().accept(this,param);
