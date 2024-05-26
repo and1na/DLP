@@ -19,7 +19,7 @@ public class CharType extends AbstractType {
     }
     @Override
     public Type arithmetic(Type other, ASTNode ast) {
-        if(other instanceof IntType || other instanceof CharType) return other;
+        if(other instanceof IntType || other instanceof CharType) return new IntType(0,0);
 
         return super.arithmetic(other, ast);
     }
